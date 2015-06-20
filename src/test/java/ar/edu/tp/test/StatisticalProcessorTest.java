@@ -9,7 +9,7 @@ import ar.edu.tp.domain.parser.ParserZipDeamon;
 
 public class StatisticalProcessorTest {
 
-	private static final String RECORRIDOS_2013_ZIP = "/recorridos-2013.zip";
+	private static final String RECORRIDOS_2013_ZIP = "resources";
 
 	@Test
 	public void getBikeUsedMoreTimesShouldGetBikeWithOneUse() throws Exception {

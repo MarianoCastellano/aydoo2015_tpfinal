@@ -1,10 +1,10 @@
 package ar.edu.tp.domain.parser;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -20,14 +20,13 @@ public class ParserZipDeamon implements ParserZip {
 
 	private String path;
 
-	public ParserZipDeamon(String path) {
-		this.path = path;
+	public ParserZipDeamon(String folder) {
+		this.path = findPath(folder);
 	}
 
 	@SuppressWarnings({ "resource", "unchecked" })
 	public List<Travel> parse() throws IOException {
-		URL resource = ParserZipDeamon.class.getResource(path);
-		ZipFile zipFile = new ZipFile(resource.getPath());
+		ZipFile zipFile = new ZipFile(path);
 		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
 
 		String cvsSplitBy = ",";
@@ -68,5 +67,17 @@ public class ParserZipDeamon implements ParserZip {
 			}
 		}
 		return travels;
+	}
+
+	private String findPath(String folder) {
+		File file = new File(folder);
+		File[] listFiles = file.listFiles();
+		for (int i = 0; i < listFiles.length; i++) {
+			File eachFile = listFiles[i];
+			if (eachFile.getName().endsWith(".zip")) {
+				return eachFile.getPath();
+			}
+		}
+		return null;
 	}
 }
