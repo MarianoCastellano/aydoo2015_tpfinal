@@ -43,12 +43,13 @@
 			<include name="*.jar" />
 		</fileset>
 	</path>
-	
+
 	<target name="setup">
 		<delete dir="${build}" />
 		<mkdir dir="${build}" />
 		<mkdir dir="${build}/classes" />
 		<mkdir dir="${build}/tests" />
+		<mkdir dir="${reports.dir}" />
 	</target>
 
 	<target name="compilar.aplicacion" depends="setup, resolve">
@@ -62,9 +63,28 @@
 		</javac>
 	</target>
 
+	<target name="compilar.tests.sin.instrumentar" depends="compilar.aplicacion">
+		<javac srcdir="test" destdir="${build}/tests" includeantruntime="false" debug="yes" target="1.7">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="instrumentar.aplicacion" depends="compilar.aplicacion, init">
+		<delete file="${build}/cobertura.ser" />
+		<delete dir="${instrumented.dir}" />
+		<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+		<cobertura-instrument todir="${instrumented.dir}" datafile="${build}/cobertura.ser">
+			<ignore regex="org.apache.log4j.*" />
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
 
 	<target name="ejecutar.tests" depends="compilar.tests">
-		<junit fork="yes" failureProperty="test.failure" forkmode="once">
+		<junit fork="yes" failureProperty="test.failure" forkmode="once" showoutput="true">
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${build}/cobertura.ser" />
 			<classpath location="${instrumented.dir}" />
 			<classpath location="${build}" />
@@ -83,20 +103,6 @@
 			</fileset>
 			<report format="frames" todir="${reports.html.dir}" />
 		</junitreport>
-	</target>
-
-
-	<target name="instrumentar.aplicacion" depends="compilar.aplicacion, init">
-		<delete file="${build}/cobertura.ser" />
-		<delete dir="${instrumented.dir}" />
-		<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
-		<cobertura-instrument todir="${instrumented.dir}" datafile="${build}/cobertura.ser">
-			<ignore regex="org.apache.log4j.*" />
-			<fileset dir="${classes.dir}">
-				<include name="**/*.class" />
-				<exclude name="**/*Test.class" />
-			</fileset>
-		</cobertura-instrument>
 	</target>
 
 	<target name="init">
@@ -125,7 +131,17 @@
 		</cobertura-report>
 	</target>
 
-	<target name="test" depends="ejecutar.tests, coverage-report, alternate-coverage-report" description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports." />
+	<target name="test" depends="compilar.tests.sin.instrumentar">
+		<junit fork="no" failureProperty="test.failure" showoutput="true">
+			<classpath location="${build}" />
+			<classpath refid="classpath" />
+			<batchtest todir="${reports.xml.dir}" unless="testcase">
+				<fileset dir="${build}/tests" includes="**/*Test.class" />
+				<formatter type="plain" usefile="false" />
+			</batchtest>
+		</junit>
+	</target>
+
 
 	<target name="compilar.paquete" depends="test">
 		<javac srcdir="src" destdir="${build}/classes" debug="no">
@@ -136,13 +152,13 @@
 		<jar destfile="${build}/dist/titiritero.jar" basedir="${build}/classes" />
 	</target>
 
-	<target name="integracion-continua" depends="run-pmd,coverage-report,alternate-coverage-report" description="Ejecuta todas las tareas de integracion y genera los correspondientes reportes"/>
+	<target name="integracion-continua" depends="run-pmd,coverage-report,alternate-coverage-report" description="Ejecuta todas las tareas de integracion y genera los correspondientes reportes" />
 
 	<!-- Ivy installation -->
 	<target name="download-ivy" unless="skip.download">
 		<mkdir dir="${ivy.jar.dir}" />
 		<!-- download Ivy from web site so that it can be used even 
-         without any special installation -->
+	         without any special installation -->
 		<echo message="installing ivy..." />
 		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true" />
 	</target>
@@ -158,20 +174,21 @@
 	<!-- Resolve dependencies -->
 	<target name="resolve" depends="install-ivy" description="--> retrieve dependencies with ivy">
 		<ivy:retrieve conf="build" pattern="${libs}/[artifact]-[type]-[revision].[ext]" />
-		<ivy:retrieve conf="analysis" pattern="${libs}/analysis/[artifact](-[classifier]).[ext]"/>	
-		
+		<ivy:retrieve conf="analysis" pattern="${libs}/analysis/[artifact](-[classifier]).[ext]" />
+
 	</target>
 	<!-- End of 'Resolve dependencies -->
 
 	<target name="run-pmd" depends="setup, resolve">
-		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" >
+		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
 			<classpath refid="pmd.classpath" />
 		</taskdef>
 		<pmd shortFilenames="true">
 			<ruleset>rulesets/favorites.xml</ruleset>
 			<ruleset>basic</ruleset>
 			<ruleset>imports</ruleset>
-			<formatter type="html" toFile="pmd_report.html" linkPrefix="http://pmd.sourceforge.net/xref/" toConsole="true"/>
+			<formatter type="html" toFile="${reports.dir}/pmd.html" linkPrefix="http://pmd.sourceforge.net/xref/" toConsole="true" />
+			<formatter type="xml" toFile="${reports.dir}/pmd.xml" linkPrefix="http://pmd.sourceforge.net/xref/" toConsole="false" />
 			<fileset dir="src">
 				<include name="**/*.java" />
 			</fileset>
