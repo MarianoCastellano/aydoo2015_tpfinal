@@ -15,6 +15,6 @@ public class StatisticalProcessorTest {
 	public void getBikeUsedMoreTimesShouldGetBikeWithOneUse() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
 		Bike bikeUsedMoreTimes = processor.getBikeUsedMoreTimes();
-		Assert.assertEquals(new String("986"), bikeUsedMoreTimes.getBikeId());
+		Assert.assertEquals("986", bikeUsedMoreTimes.getBikeId());
 	}
 }

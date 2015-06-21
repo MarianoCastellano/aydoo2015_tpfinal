@@ -20,6 +20,11 @@ public class Bike {
 	public User getUser() {
 		return user;
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.bikeId.hashCode();
+	}
 
 	@Override
 	public boolean equals(Object obj) {
