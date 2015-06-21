@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 set -e
-ant
+sudo ant
