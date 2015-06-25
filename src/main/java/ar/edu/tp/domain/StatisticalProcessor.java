@@ -3,6 +3,7 @@ package ar.edu.tp.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,24 +17,32 @@ public class StatisticalProcessor {
 		travels = parser.parse();
 	}
 
-	public Bike getBikeUsedMoreTimes() {
+	public List<Bike> getBikesUsedMoreTimes() {
 		Map<Bike, Integer> useOfBike = generateUseOfBike();
 
 		Integer moreTimes = Collections.max(useOfBike.values());
 
-		return findBikeByFrecuency(useOfBike, moreTimes);
+		return findBikesByFrecuency(useOfBike, moreTimes);
+	} 
+	
+	public List<Bike> getBikesUsedLessTimes() {
+		Map<Bike, Integer> useOfBike = generateUseOfBike();
+
+		Integer lessTimes = Collections.min(useOfBike.values());
+
+		return findBikesByFrecuency(useOfBike, lessTimes);
 	}
 
-	private Bike findBikeByFrecuency(Map<Bike, Integer> useOfBike, Integer frecuency) {
+	private List<Bike> findBikesByFrecuency(Map<Bike, Integer> useOfBike, Integer frecuency) {
+		List<Bike> bikes = new LinkedList<Bike>();
 		for (Map.Entry<Bike, Integer> e : useOfBike.entrySet()) {
-			Bike key = e.getKey();
+			Bike key = e.getKey();		
 			Integer value = e.getValue();
 			if (value.equals(frecuency)) {
-				return key;
+				bikes.add(key);
 			}
 		}
-
-		return null;
+		return bikes;
 	}
 
 	private Map<Bike, Integer> generateUseOfBike() {
@@ -42,7 +51,7 @@ public class StatisticalProcessor {
 		for (Bike bike : bikes) {
 			if (!useOfBike.containsKey(bike)) {
 				int frequency = Collections.frequency(bikes, bike);
-				useOfBike.put(bike, new Integer(frequency));
+				useOfBike.put(bike, new Integer(frequency));		
 			}
 		}
 		return useOfBike;
@@ -51,7 +60,7 @@ public class StatisticalProcessor {
 	private List<Bike> getAllBikes() {
 		List<Bike> bikes = new ArrayList<Bike>();
 		for (Travel travel : travels) {
-			bikes.add(travel.getBike());
+			bikes.add(travel.getBike());			
 		}
 		return bikes;
 	}
