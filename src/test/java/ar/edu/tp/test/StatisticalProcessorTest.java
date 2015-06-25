@@ -14,7 +14,7 @@ public class StatisticalProcessorTest {
 	private static final String RECORRIDOS_2013_ZIP = "resources";
 
 	@Test
-	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUse() throws Exception {
+	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
@@ -22,7 +22,7 @@ public class StatisticalProcessorTest {
 	}
 	
 	@Test
-	public void getBikesUsedLessTimesShouldGetBikesWithOneUse() throws Exception {
+	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
 		List<Bike> bikeUsedLessTimes = processor.getBikesUsedLessTimes();
 		Assert.assertEquals(7, bikeUsedLessTimes.size());
