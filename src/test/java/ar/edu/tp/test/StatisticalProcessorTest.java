@@ -19,7 +19,7 @@ public class StatisticalProcessorTest {
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
 		Assert.assertEquals("986", bikeUsedMoreTimes.get(0).getBikeId());
-	}
+	} 
 	
 	@Test
 	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws Exception {
