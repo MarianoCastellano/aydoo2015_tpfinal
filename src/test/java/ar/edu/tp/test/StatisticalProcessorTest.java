@@ -21,6 +21,7 @@ public class StatisticalProcessorTest {
 		Assert.assertEquals("986", bikeUsedMoreTimes.get(0).getBikeId());
 	} 
 	
+	
 	@Test
 	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
