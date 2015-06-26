@@ -24,7 +24,11 @@ public class Location {
 		return originStationId;
 	}
 	
-
+	@Override
+	public int hashCode() {
+		return this.originStationId.hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		Location other = (Location) obj;

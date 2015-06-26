@@ -31,45 +31,51 @@ public class ParserZipOnDemand implements ParserZip {
 		for (String path : paths) {
 			ZipFile zipFile = new ZipFile(path);
 
-			Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
-
-			String cvsSplitBy = ",";
+			Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();			
 
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
 				InputStream stream = zipFile.getInputStream(entry);
-
-				BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-				String line = "";
-				Boolean isHeader = false;
-
-				while ((line = br.readLine()) != null) {
-					if (!isHeader) {
-						isHeader = true;
-					} else {
-						String[] row = line.split(cvsSplitBy);
-						String userId = row[0];
-						String bikeId = row[1];
-						String originDate = row[2];
-						String originStationId = row[3];
-						String originName = row[4];
-						String destinationDate = row[5];
-						String destinationStationId = row[6];
-						String destinationName = row[7];
-						String time = row[8];
-
-						User user = new User(userId);
-						Bike bike = new Bike(bikeId);
-						bike.use(user);
-						Location origin = new Location(originStationId, originName, originDate);
-						Location destination = new Location(destinationStationId, destinationName, destinationDate);
-						Travel travel = new Travel(bike, origin, destination, time);
-						travels.add(travel);
-					}
-				}
+				proccesTravel(travels, stream);
 			}
 		}
 		return travels;
+	}
+	
+	
+
+	private void proccesTravel(List<Travel> travels, InputStream stream ) throws IOException {
+
+		String cvsSplitBy = ",";
+		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+		String line = "";
+		Boolean isHeader = false;
+		
+		while ((line = br.readLine()) != null) {
+			if (!isHeader) {
+				isHeader = true;
+			} else {
+				String[] row = line.split(cvsSplitBy);
+				String userId = row[0];
+				String bikeId = row[1];
+				String originDate = row[2];
+				String originStationId = row[3];
+				String originName = row[4];
+				String destinationDate = row[5];
+				String destinationStationId = row[6];
+				String destinationName = row[7];
+				String time = row[8];
+
+				User user = new User(userId);
+				Bike bike = new Bike(bikeId);
+				bike.use(user);
+				Location origin = new Location(originStationId, originName, originDate);
+				Location destination = new Location(destinationStationId, destinationName, destinationDate);
+				Travel travel = new Travel(bike, origin, destination, time);
+				travels.add(travel);
+			}
+		}
+		
 	}
 
 	private List<String> findPaths(String folder) {

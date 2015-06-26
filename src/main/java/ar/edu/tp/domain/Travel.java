@@ -31,6 +31,11 @@ public class Travel {
 	}
 	
 	@Override
+	public int hashCode() {
+		return this.origin.hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		Travel other = (Travel) obj;
 		return ((this.origin.equals(other.origin))&&(this.destination.equals(other.destination)));
