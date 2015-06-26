@@ -23,8 +23,8 @@ public class StatisticalProcessor {
 		Integer moreTimes = Collections.max(useOfBike.values());
 
 		return findBikesByFrecuency(useOfBike, moreTimes);
-	} 
-	
+	}
+
 	public List<Bike> getBikesUsedLessTimes() {
 		Map<Bike, Integer> useOfBike = generateUseOfBike();
 
@@ -33,10 +33,22 @@ public class StatisticalProcessor {
 		return findBikesByFrecuency(useOfBike, lessTimes);
 	}
 
+	public Double getAverageUseTime() {
+		Double timeTotal = new Double(0);
+		Integer quantity = 0;
+		for (Travel travel : travels) {
+			Double time = travel.getTime();
+			timeTotal += time;
+			quantity++;
+		}
+		// TODO NANO: validar la division por cero.
+		return timeTotal / quantity;
+	}
+
 	private List<Bike> findBikesByFrecuency(Map<Bike, Integer> useOfBike, Integer frecuency) {
 		List<Bike> bikes = new LinkedList<Bike>();
 		for (Map.Entry<Bike, Integer> e : useOfBike.entrySet()) {
-			Bike key = e.getKey();		
+			Bike key = e.getKey();
 			Integer value = e.getValue();
 			if (value.equals(frecuency)) {
 				bikes.add(key);
@@ -51,7 +63,7 @@ public class StatisticalProcessor {
 		for (Bike bike : bikes) {
 			if (!useOfBike.containsKey(bike)) {
 				int frequency = Collections.frequency(bikes, bike);
-				useOfBike.put(bike, new Integer(frequency));		
+				useOfBike.put(bike, new Integer(frequency));
 			}
 		}
 		return useOfBike;
@@ -60,7 +72,7 @@ public class StatisticalProcessor {
 	private List<Bike> getAllBikes() {
 		List<Bike> bikes = new ArrayList<Bike>();
 		for (Travel travel : travels) {
-			bikes.add(travel.getBike());			
+			bikes.add(travel.getBike());
 		}
 		return bikes;
 	}

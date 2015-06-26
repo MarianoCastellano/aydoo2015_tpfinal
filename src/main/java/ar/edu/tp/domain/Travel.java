@@ -26,7 +26,7 @@ public class Travel {
 		return origin;
 	}
 
-	public String getTime() {
-		return time;
+	public Double getTime() {
+		return Double.parseDouble(time);
 	}
 }
