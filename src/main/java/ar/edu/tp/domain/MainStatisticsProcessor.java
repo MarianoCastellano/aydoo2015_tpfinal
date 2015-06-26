@@ -18,9 +18,6 @@ public class MainStatisticsProcessor {
 	private static final String FILE_NAME = "resultado";
 
 	public static void main(String[] args) throws Exception {
-
-		List<String> paths = MainStatisticsProcessor.findPaths(args[0]);
-
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
 			Path folder = Paths.get(args[0]);
@@ -35,6 +32,8 @@ public class MainStatisticsProcessor {
 				for (WatchEvent<?> event : events) {
 					if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
 
+						List<String> paths = MainStatisticsProcessor.findPaths(args[0]);
+
 						for (String path : paths) {
 							ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
 							List<Travel> travels = parserZipDeamon.parse();
@@ -48,6 +47,8 @@ public class MainStatisticsProcessor {
 			}
 		} else {
 			System.out.println("Modo On-demand.");
+
+			List<String> paths = MainStatisticsProcessor.findPaths(args[0]);
 
 			ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
 			List<Travel> travels = parserZipOnDemand.parse();

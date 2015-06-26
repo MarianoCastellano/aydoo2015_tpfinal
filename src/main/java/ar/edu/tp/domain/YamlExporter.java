@@ -13,7 +13,8 @@ public class YamlExporter implements FileFormatExporter {
 	private Double averageUseTime;
 	private List<Travel> travelsMoreDone;
 
-	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Travel> travelsMoreDone, Double averageUseTime) {
+	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Travel> travelsMoreDone,
+			Double averageUseTime) {
 		this.fileName = fileName;
 		this.bikesUsedMoreTimes = bikesUsedMoreTimes;
 		this.bikesUsedLessTimes = bikesUsedLessTimes;
@@ -25,6 +26,7 @@ public class YamlExporter implements FileFormatExporter {
 	public void export() throws IOException {
 		// TODO NANO: Tener en cuenta si ya existe un archivo con ese nombre.
 		FileWriter file = new FileWriter(fileName.concat(getFormat()));
+		System.out.println(fileName.concat(getFormat()));
 		PrintWriter printWriter = new PrintWriter(file);
 
 		printWriter.write(String.format("Bicicletas mas usadas: "));
@@ -38,9 +40,9 @@ public class YamlExporter implements FileFormatExporter {
 		for (Bike bike : bikesUsedLessTimes) {
 			printValue(printWriter, bike);
 		}
-		
+
 		printWriter.write(System.lineSeparator());
-		
+
 		printWriter.write(String.format("Recorrido mas realizado: "));
 		for (Travel travel : travelsMoreDone) {
 			printTravel(printWriter, travel);
