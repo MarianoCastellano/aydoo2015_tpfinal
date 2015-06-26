@@ -6,7 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.StatisticalProcessor;
+import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.parser.ParserZipDeamon;
 
 public class StatisticalProcessorTest {
@@ -19,14 +21,14 @@ public class StatisticalProcessorTest {
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
 		Assert.assertEquals("986", bikeUsedMoreTimes.get(0).getBikeId());
-	} 
-	
+	}
+
 	@Test
 	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
 		List<Bike> bikeUsedLessTimes = processor.getBikesUsedLessTimes();
 		Assert.assertEquals(7, bikeUsedLessTimes.size());
-		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1205")));	
+		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1205")));
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1524")));
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1274")));
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1433")));
@@ -34,4 +36,23 @@ public class StatisticalProcessorTest {
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1522")));
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1442")));
 	}
+
+	@Test
+	public void getTravelMoreDoneShouldGetPacificoAduanaTest() throws Exception{
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
+		List<Travel> travelMoreDone = processor.getTravelMoreDone();
+		Location origin = new Location("21","PACIFICO",null);
+		Location destiny = new Location("5","ADUANA",null);
+		
+		Assert.assertEquals(origin, travelMoreDone.get(0).getOrigin());
+		Assert.assertEquals(destiny, travelMoreDone.get(0).getDestination());
+	}
+
+	@Test
+	public void getAverageUseTimeShouldGetAverageUseTest() throws Exception {
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
+		Double averageUseTime = processor.getAverageUseTime();
+		Assert.assertEquals(25.8888888889, averageUseTime, 0.0001);
+	}
+
 }
