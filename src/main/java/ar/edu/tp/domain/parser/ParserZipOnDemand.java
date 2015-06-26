@@ -16,11 +16,11 @@ import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.User;
 
-public class ParserZipOnDeamon implements ParserZip {
+public class ParserZipOnDemand implements ParserZip {
 
 	private List<String> paths;
 
-	public ParserZipOnDeamon(String folder) {
+	public ParserZipOnDemand(String folder) {
 		this.paths = findPaths(folder);
 	}
 
