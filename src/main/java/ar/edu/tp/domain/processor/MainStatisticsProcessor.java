@@ -1,6 +1,5 @@
 package ar.edu.tp.domain.processor;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,7 +7,6 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.tp.domain.Bike;
@@ -22,6 +20,9 @@ public class MainStatisticsProcessor {
 
 	public static void main(String[] args) throws Exception {
 		String folder = args[0];
+
+		FileManager fileManager = new FileManager(folder);
+		fileManager.validateFolder();
 
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
@@ -37,13 +38,10 @@ public class MainStatisticsProcessor {
 				for (WatchEvent<?> event : events) {
 					if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
 
-						List<String> paths = MainStatisticsProcessor.findPaths(folder);
+						List<String> paths = fileManager.findPaths();
 
 						for (String path : paths) {
-							String file = event.context().toString();
-							int length = file.length();
-							String fileName = file.substring(0, length - 4);
-
+							String fileName = fileManager.extractNameFromZipFile(event.context().toString());
 							ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
 							List<Travel> travels = parserZipDeamon.parse();
 							StatisticalProcessor processor = new StatisticalProcessor(travels);
@@ -56,15 +54,12 @@ public class MainStatisticsProcessor {
 		} else {
 			System.out.println("Modo On-demand.");
 
-			List<String> paths = MainStatisticsProcessor.findPaths(folder);
+			List<String> paths = fileManager.findPaths();
 
 			ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
 			List<Travel> travels = parserZipOnDemand.parse();
 			StatisticalProcessor processor = new StatisticalProcessor(travels);
-
-			String[] file = folder.split("/");
-			String fileName = file[file.length - 1];
-
+			String fileName = fileManager.extractNameFromFolder(folder);
 			generateStatistics(processor, fileName);
 		}
 	}
@@ -79,16 +74,4 @@ public class MainStatisticsProcessor {
 		yamlExporter.export();
 	}
 
-	public static List<String> findPaths(String folder) {
-		List<String> paths = new ArrayList<String>();
-		File file = new File(folder);
-		File[] listFiles = file.listFiles();
-		for (int i = 0; i < listFiles.length; i++) {
-			File eachFile = listFiles[i];
-			if (eachFile.getName().endsWith(".zip")) {
-				paths.add(eachFile.getPath());
-			}
-		}
-		return paths;
-	}
 }

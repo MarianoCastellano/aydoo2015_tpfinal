@@ -13,6 +13,7 @@ import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.parser.ParserZipOnDemand;
 import ar.edu.tp.domain.processor.StatisticalProcessor;
+import ar.edu.tp.exception.TravelsNotFoundException;
 
 public class StatisticalProcessorTest {
 
@@ -26,7 +27,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() {
+	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws TravelsNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
@@ -34,7 +35,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() {
+	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws TravelsNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Bike> bikeUsedLessTimes = processor.getBikesUsedLessTimes();
 		Assert.assertEquals(7, bikeUsedLessTimes.size());
@@ -48,7 +49,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getTravelMoreDoneShouldGetPacificoAduanaTest() {
+	public void getTravelMoreDoneShouldGetPacificoAduanaTest() throws TravelsNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Travel> travelMoreDone = processor.getTravelMoreDone();
 		Location origin = new Location("21", "PACIFICO", null);
@@ -59,7 +60,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getAverageUseTimeShouldGetAverageUseTest() {
+	public void getAverageUseTimeShouldGetAverageUseTest() throws TravelsNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		Double averageUseTime = processor.getAverageUseTime();
 		Assert.assertEquals(25.8888888889, averageUseTime, 0.0001);
