@@ -1,2 +1,2 @@
 language: java
-script: "chmod +x ./build_all.sh"
+script: "./build_all.sh"
