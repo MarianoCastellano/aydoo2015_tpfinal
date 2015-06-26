@@ -21,7 +21,8 @@ public class YamlExporter implements FileFormatExporter {
 
 	@Override
 	public void export() throws IOException {
-		FileWriter file = new FileWriter(fileName);
+		// TODO NANO: Tener en cuenta si ya existe un archivo con ese nombre.
+		FileWriter file = new FileWriter(fileName.concat(getFormat()));
 		PrintWriter printWriter = new PrintWriter(file);
 
 		printWriter.write(String.format("Bicicletas mas usadas: "));
@@ -41,6 +42,11 @@ public class YamlExporter implements FileFormatExporter {
 		printWriter.write(System.lineSeparator());
 
 		printWriter.close();
+	}
+
+	@Override
+	public String getFormat() {
+		return ".yml";
 	}
 
 	private void printValue(PrintWriter printWriter, Bike bike) {

@@ -29,4 +29,10 @@ public class Travel {
 	public Double getTime() {
 		return Double.parseDouble(time);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Travel other = (Travel) obj;
+		return ((this.origin.equals(other.origin))&&(this.destination.equals(other.destination)));
+	}
 }

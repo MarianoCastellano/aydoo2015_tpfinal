@@ -6,7 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.StatisticalProcessor;
+import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.parser.ParserZipOnDeamon;
 
 public class StatisticalProcessorTest {
@@ -36,9 +38,21 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
+	public void getTravelMoreDoneShouldGetPacificoAduanaTest() throws Exception {
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDeamon(RECORRIDOS_2013_ZIP));
+		List<Travel> travelMoreDone = processor.getTravelMoreDone();
+		Location origin = new Location("21", "PACIFICO", null);
+		Location destiny = new Location("5", "ADUANA", null);
+
+		Assert.assertEquals(origin, travelMoreDone.get(0).getOrigin());
+		Assert.assertEquals(destiny, travelMoreDone.get(0).getDestination());
+	}
+
+	@Test
 	public void getAverageUseTimeShouldGetAverageUseTest() throws Exception {
 		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDeamon(RECORRIDOS_2013_ZIP));
 		Double averageUseTime = processor.getAverageUseTime();
 		Assert.assertEquals(25.8888888889, averageUseTime, 0.0001);
 	}
+
 }

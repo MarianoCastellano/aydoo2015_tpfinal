@@ -23,4 +23,11 @@ public class Location {
 	public String getOriginStationId() {
 		return originStationId;
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		Location other = (Location) obj;
+		return this.originStationId.equals(other.originStationId);
+	}
 }

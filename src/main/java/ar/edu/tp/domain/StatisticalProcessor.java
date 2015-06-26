@@ -32,6 +32,30 @@ public class StatisticalProcessor {
 
 		return findBikesByFrecuency(useOfBike, lessTimes);
 	}
+	
+	public List<Travel> getTravelMoreDone(){		
+		
+		Map<Travel,Integer> travelCount = getTravelCountMap();
+		
+		Integer maxCountOfTravelDone = Collections.max(travelCount.values());		
+		
+		return travelMoreDone(travelCount, maxCountOfTravelDone);
+	}
+
+	private List<Travel> travelMoreDone(Map<Travel, Integer> travelCount, Integer max) {
+		
+		List<Travel> travels = new LinkedList<Travel>();
+		
+		for (Map.Entry<Travel, Integer> e : travelCount.entrySet()) {
+			Travel key = e.getKey();		
+			Integer value = e.getValue();
+			if (value.equals(max)) {
+				travels.add(key);
+			}
+		}
+		
+		return travels;
+	}
 
 	public Double getAverageUseTime() {
 		Double timeTotal = new Double(0);
@@ -75,6 +99,28 @@ public class StatisticalProcessor {
 			bikes.add(travel.getBike());
 		}
 		return bikes;
+	}
+
+	private Map<Travel,Integer> getTravelCountMap() {
+		Map<Travel, Integer> travelCountMap = new HashMap<Travel, Integer>();
+		int count = 0;
+		for (Travel travel : travels) {
+			if (!travelCountMap.containsKey(travel)) {
+				count = getTravelCount(travel);					
+				travelCountMap.put(travel, new Integer(count));				
+			}			
+		}		
+		return travelCountMap;
+	}
+
+	private int getTravelCount(Travel travelToCount) {
+		int count = 0;
+		for (Travel travel : travels) {
+			if (travel.equals(travelToCount)){
+				count++;				
+			}
+		}
+		return count;
 	}
 
 }

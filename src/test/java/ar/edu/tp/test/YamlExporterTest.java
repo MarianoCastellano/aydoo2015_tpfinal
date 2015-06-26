@@ -14,11 +14,12 @@ import ar.edu.tp.domain.YamlExporter;
 
 public class YamlExporterTest {
 
-	private final String PATH_FILE_NAME = "prueba.yml";
+	private final String FILE_NAME = "prueba";
+	private final String EXTENSION_FILE = ".yml";
 
 	@After
 	public void clean() {
-		File file = new File(PATH_FILE_NAME);
+		File file = new File("prueba".concat(EXTENSION_FILE));
 		file.delete();
 	}
 
@@ -28,10 +29,10 @@ public class YamlExporterTest {
 		List<Bike> bikesUsedLessTimes = generateBikesUsedLessTimes();
 		Double averageUseTime = 0D;
 
-		FileFormatExporter yamlExporter = new YamlExporter(PATH_FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, averageUseTime);
+		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, averageUseTime);
 		yamlExporter.export();
 
-		File file = new File(PATH_FILE_NAME);
+		File file = new File("prueba".concat(EXTENSION_FILE));
 		Assert.assertTrue(file.exists());
 	}
 
