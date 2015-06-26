@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.StatisticalProcessor;
-import ar.edu.tp.domain.parser.ParserZipDeamon;
+import ar.edu.tp.domain.parser.ParserZipOnDeamon;
 
 public class StatisticalProcessorTest {
 
@@ -15,7 +15,7 @@ public class StatisticalProcessorTest {
 
 	@Test
 	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws Exception {
-		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDeamon(RECORRIDOS_2013_ZIP));
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
 		Assert.assertEquals("986", bikeUsedMoreTimes.get(0).getBikeId());
@@ -23,7 +23,7 @@ public class StatisticalProcessorTest {
 
 	@Test
 	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws Exception {
-		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDeamon(RECORRIDOS_2013_ZIP));
 		List<Bike> bikeUsedLessTimes = processor.getBikesUsedLessTimes();
 		Assert.assertEquals(7, bikeUsedLessTimes.size());
 		Assert.assertTrue(bikeUsedLessTimes.contains(new Bike("1205")));
@@ -37,7 +37,7 @@ public class StatisticalProcessorTest {
 
 	@Test
 	public void getAverageUseTimeShouldGetAverageUseTest() throws Exception {
-		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(RECORRIDOS_2013_ZIP));
+		StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDeamon(RECORRIDOS_2013_ZIP));
 		Double averageUseTime = processor.getAverageUseTime();
 		Assert.assertEquals(25.8888888889, averageUseTime, 0.0001);
 	}
