@@ -15,9 +15,10 @@ public class MainStatisticsProcessor {
 			StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDemand(args[0]));
 			List<Bike> bikesUsedMoreTimes = processor.getBikesUsedMoreTimes();
 			List<Bike> bikesUsedLessTimes = processor.getBikesUsedLessTimes();
+			List<Travel> travelsMoreDone = processor.getTravelMoreDone();
 			Double averageUseTime = processor.getAverageUseTime();
-
-			FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, averageUseTime);
+			
+			FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
 			yamlExporter.export();
 		}
 	}
