@@ -1,5 +1,6 @@
 package ar.edu.tp.test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -13,7 +14,7 @@ import ar.edu.tp.domain.parser.ParserZipOnDemand;
 
 public class StatisticalProcessorTest {
 
-	private static final String RECORRIDOS_2013_ZIP = "resources";
+	private static final List<String> RECORRIDOS_2013_ZIP = Arrays.asList("resources/recorrido-2013.zip");
 
 	@Test
 	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws Exception {
