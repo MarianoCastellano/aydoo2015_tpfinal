@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.tp.domain.ParserZipDeamon;
 import ar.edu.tp.domain.Travel;
 
 public class ParserZipOnDemand implements ParserZip {

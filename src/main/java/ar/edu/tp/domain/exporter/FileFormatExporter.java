@@ -1,4 +1,4 @@
-package ar.edu.tp.domain;
+package ar.edu.tp.domain.exporter;
 
 import java.io.IOException;
 

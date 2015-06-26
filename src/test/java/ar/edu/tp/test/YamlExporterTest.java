@@ -9,10 +9,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.FileFormatExporter;
 import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
-import ar.edu.tp.domain.YamlExporter;
+import ar.edu.tp.domain.exporter.FileFormatExporter;
+import ar.edu.tp.domain.exporter.YamlExporter;
 
 public class YamlExporterTest {
 

@@ -1,4 +1,4 @@
-package ar.edu.tp.domain;
+package ar.edu.tp.domain.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import ar.edu.tp.domain.parser.ParserZip;
+import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Location;
+import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.User;
 
 public class ParserZipDeamon implements ParserZip {
 

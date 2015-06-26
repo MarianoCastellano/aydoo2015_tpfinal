@@ -1,4 +1,4 @@
-package ar.edu.tp.domain;
+package ar.edu.tp.domain.processor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Travel;
 
 public class StatisticalProcessor {
 

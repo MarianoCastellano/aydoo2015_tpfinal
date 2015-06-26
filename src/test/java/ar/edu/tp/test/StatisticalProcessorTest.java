@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.StatisticalProcessor;
 import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.parser.ParserZipOnDemand;
+import ar.edu.tp.domain.processor.StatisticalProcessor;
 
 public class StatisticalProcessorTest {
 

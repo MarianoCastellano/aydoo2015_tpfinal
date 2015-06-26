@@ -1,4 +1,4 @@
-package ar.edu.tp.domain;
+package ar.edu.tp.domain.processor;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,19 +11,24 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.exporter.FileFormatExporter;
+import ar.edu.tp.domain.exporter.YamlExporter;
+import ar.edu.tp.domain.parser.ParserZipDeamon;
 import ar.edu.tp.domain.parser.ParserZipOnDemand;
 
 public class MainStatisticsProcessor {
 
-	private static final String FILE_NAME = "resultado";
-
 	public static void main(String[] args) throws Exception {
+		String folder = args[0];
+
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
-			Path folder = Paths.get(args[0]);
+			Path folderPath = Paths.get(folder);
 
-			WatchService watcher = folder.getFileSystem().newWatchService();
-			folder.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+			WatchService watcher = folderPath.getFileSystem().newWatchService();
+			folderPath.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
 
 			WatchKey watckKey = watcher.take();
 
@@ -32,38 +37,45 @@ public class MainStatisticsProcessor {
 				for (WatchEvent<?> event : events) {
 					if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
 
-						List<String> paths = MainStatisticsProcessor.findPaths(args[0]);
+						List<String> paths = MainStatisticsProcessor.findPaths(folder);
 
 						for (String path : paths) {
+							String file = event.context().toString();
+							int length = file.length();
+							String fileName = file.substring(0, length - 4);
+
 							ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
 							List<Travel> travels = parserZipDeamon.parse();
 							StatisticalProcessor processor = new StatisticalProcessor(travels);
-							generateStatistics(processor);
+							generateStatistics(processor, fileName);
 						}
 
-						System.out.println("Created: " + event.context().toString());
 					}
 				}
 			}
 		} else {
 			System.out.println("Modo On-demand.");
 
-			List<String> paths = MainStatisticsProcessor.findPaths(args[0]);
+			List<String> paths = MainStatisticsProcessor.findPaths(folder);
 
 			ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
 			List<Travel> travels = parserZipOnDemand.parse();
 			StatisticalProcessor processor = new StatisticalProcessor(travels);
-			generateStatistics(processor);
+
+			String[] file = folder.split("/");
+			String fileName = file[file.length - 1];
+
+			generateStatistics(processor, fileName);
 		}
 	}
 
-	private static void generateStatistics(StatisticalProcessor processor) throws IOException {
+	private static void generateStatistics(StatisticalProcessor processor, String fileName) throws IOException {
 		List<Bike> bikesUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = processor.getBikesUsedLessTimes();
 		List<Travel> travelsMoreDone = processor.getTravelMoreDone();
 		Double averageUseTime = processor.getAverageUseTime();
 
-		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
+		FileFormatExporter yamlExporter = new YamlExporter(fileName, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
 		yamlExporter.export();
 	}
 

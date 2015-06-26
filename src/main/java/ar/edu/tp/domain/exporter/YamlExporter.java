@@ -1,9 +1,13 @@
-package ar.edu.tp.domain;
+package ar.edu.tp.domain.exporter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
+import ar.edu.tp.domain.Bike;
+import ar.edu.tp.domain.Travel;
 
 public class YamlExporter implements FileFormatExporter {
 
@@ -24,10 +28,9 @@ public class YamlExporter implements FileFormatExporter {
 
 	@Override
 	public void export() throws IOException {
-		// TODO NANO: Tener en cuenta si ya existe un archivo con ese nombre.
-		FileWriter file = new FileWriter(fileName.concat(getFormat()));
-		System.out.println(fileName.concat(getFormat()));
-		PrintWriter printWriter = new PrintWriter(file);
+		File file = new File(fileName.concat(getFormat()));
+		FileWriter fileWriter = new FileWriter(file);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		printWriter.write(String.format("Bicicletas mas usadas: "));
 		for (Bike bike : bikesUsedMoreTimes) {
@@ -53,6 +56,8 @@ public class YamlExporter implements FileFormatExporter {
 		printWriter.write(System.lineSeparator());
 
 		printWriter.close();
+
+		System.out.println(String.format("Archivo de salida creado: %s", file.getAbsoluteFile()));
 	}
 
 	private void printTravel(PrintWriter printWriter, Travel travel) {
