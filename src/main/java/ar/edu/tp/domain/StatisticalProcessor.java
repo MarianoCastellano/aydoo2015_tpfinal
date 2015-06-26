@@ -7,14 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ar.edu.tp.domain.parser.ParserZip;
-
 public class StatisticalProcessor {
 
 	private List<Travel> travels;
 
-	public StatisticalProcessor(ParserZip parser) throws Exception {
-		travels = parser.parse();
+	public StatisticalProcessor(List<Travel> travels) {
+		this.travels = travels;
 	}
 
 	public List<Bike> getBikesUsedMoreTimes() {
@@ -32,28 +30,28 @@ public class StatisticalProcessor {
 
 		return findBikesByFrecuency(useOfBike, lessTimes);
 	}
-	
-	public List<Travel> getTravelMoreDone(){		
-		
-		Map<Travel,Integer> travelCount = getTravelCountMap();
-		
-		Integer maxCountOfTravelDone = Collections.max(travelCount.values());		
-		
+
+	public List<Travel> getTravelMoreDone() {
+
+		Map<Travel, Integer> travelCount = getTravelCountMap();
+
+		Integer maxCountOfTravelDone = Collections.max(travelCount.values());
+
 		return travelMoreDone(travelCount, maxCountOfTravelDone);
 	}
 
 	private List<Travel> travelMoreDone(Map<Travel, Integer> travelCount, Integer max) {
-		
+
 		List<Travel> travels = new LinkedList<Travel>();
-		
+
 		for (Map.Entry<Travel, Integer> e : travelCount.entrySet()) {
-			Travel key = e.getKey();		
+			Travel key = e.getKey();
 			Integer value = e.getValue();
 			if (value.equals(max)) {
 				travels.add(key);
 			}
 		}
-		
+
 		return travels;
 	}
 
@@ -101,23 +99,23 @@ public class StatisticalProcessor {
 		return bikes;
 	}
 
-	private Map<Travel,Integer> getTravelCountMap() {
+	private Map<Travel, Integer> getTravelCountMap() {
 		Map<Travel, Integer> travelCountMap = new HashMap<Travel, Integer>();
 		int count = 0;
 		for (Travel travel : travels) {
 			if (!travelCountMap.containsKey(travel)) {
-				count = getTravelCount(travel);					
-				travelCountMap.put(travel, new Integer(count));				
-			}			
-		}		
+				count = getTravelCount(travel);
+				travelCountMap.put(travel, new Integer(count));
+			}
+		}
 		return travelCountMap;
 	}
 
 	private int getTravelCount(Travel travelToCount) {
 		int count = 0;
 		for (Travel travel : travels) {
-			if (travel.equals(travelToCount)){
-				count++;				
+			if (travel.equals(travelToCount)) {
+				count++;
 			}
 		}
 		return count;

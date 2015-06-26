@@ -19,14 +19,18 @@ public class MainStatisticsProcessor {
 			System.out.println("Modo demonio.");
 
 			for (String path : paths) {
-				StatisticalProcessor processor = new StatisticalProcessor(new ParserZipDeamon(path));
+				ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
+				List<Travel> travels = parserZipDeamon.parse();
+				StatisticalProcessor processor = new StatisticalProcessor(travels);
 				generateStatistics(processor);
 			}
 
 		} else {
 			System.out.println("Modo On-demand.");
 
-			StatisticalProcessor processor = new StatisticalProcessor(new ParserZipOnDemand(paths));
+			ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
+			List<Travel> travels = parserZipOnDemand.parse();
+			StatisticalProcessor processor = new StatisticalProcessor(travels);
 			generateStatistics(processor);
 		}
 	}
