@@ -2,6 +2,12 @@ package ar.edu.tp.domain;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +23,29 @@ public class MainStatisticsProcessor {
 
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
+			Path folder = Paths.get(args[0]);
 
-			for (String path : paths) {
-				ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
-				List<Travel> travels = parserZipDeamon.parse();
-				StatisticalProcessor processor = new StatisticalProcessor(travels);
-				generateStatistics(processor);
+			WatchService watcher = folder.getFileSystem().newWatchService();
+			folder.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+
+			WatchKey watckKey = watcher.take();
+
+			while (true) {
+				List<WatchEvent<?>> events = watckKey.pollEvents();
+				for (WatchEvent<?> event : events) {
+					if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
+
+						for (String path : paths) {
+							ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
+							List<Travel> travels = parserZipDeamon.parse();
+							StatisticalProcessor processor = new StatisticalProcessor(travels);
+							generateStatistics(processor);
+						}
+
+						System.out.println("Created: " + event.context().toString());
+					}
+				}
 			}
-
 		} else {
 			System.out.println("Modo On-demand.");
 
