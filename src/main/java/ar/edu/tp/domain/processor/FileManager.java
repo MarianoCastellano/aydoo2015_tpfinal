@@ -9,7 +9,7 @@ import ar.edu.tp.exception.DirectoryNotFoundException;
 public class FileManager {
 
 	private static final String ERROR_DIRECTORY_NOT_FOUND = "Error: no se encuentra el directorio";
-	private static final String REGEX = "/";
+	private static final String REGEX = File.separator;
 	private static final String SUFFIX_ZIP = ".zip";
 	private String folder;
 
