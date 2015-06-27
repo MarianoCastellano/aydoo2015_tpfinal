@@ -5,7 +5,7 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ar.edu.tp.domain.processor.StatisticalProcessorOnDemand;
+import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
 import ar.edu.tp.exception.DirectoryNotFoundException;
 
@@ -15,7 +15,7 @@ public class StatisticalProcessorOnDemandIntegrationTest {
 
 	@Test
 	public void processStatisticsShouldCreateYMLFile() throws Exception {
-		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemand();
+		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
 		processorStrategy.processStatistics(FOLDER);
 
 		File file = new File(FOLDER);
@@ -25,7 +25,7 @@ public class StatisticalProcessorOnDemandIntegrationTest {
 
 	@Test(expected = DirectoryNotFoundException.class)
 	public void processStatisticsShouldNotFoundFolder() throws Exception {
-		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemand();
+		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
 		processorStrategy.processStatistics("empty");
 	}
 }

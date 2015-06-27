@@ -10,13 +10,13 @@ public class MainStatisticalProcessor {
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
 
-			processorStrategy = new StatisticalProcessorDeamon();
+			processorStrategy = new StatisticalProcessorDeamonStrategy();
 			processorStrategy.processStatistics(folder);
 
 		} else {
 			System.out.println("Modo On-demand.");
 
-			processorStrategy = new StatisticalProcessorOnDemand();
+			processorStrategy = new StatisticalProcessorOnDemandStrategy();
 			processorStrategy.processStatistics(folder);
 		}
 	}

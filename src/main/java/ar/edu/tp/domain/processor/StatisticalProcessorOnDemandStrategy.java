@@ -9,7 +9,7 @@ import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
 import ar.edu.tp.domain.parser.ParserZipOnDemand;
 
-public class StatisticalProcessorOnDemand implements StatisticalProcessorStrategy {
+public class StatisticalProcessorOnDemandStrategy implements StatisticalProcessorStrategy {
 
 	@Override
 	public void processStatistics(String folder) throws Exception {

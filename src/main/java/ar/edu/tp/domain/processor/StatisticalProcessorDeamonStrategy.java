@@ -16,7 +16,7 @@ import ar.edu.tp.domain.exporter.YamlExporter;
 import ar.edu.tp.domain.parser.ParserZipDeamon;
 import ar.edu.tp.exception.TravelsNotFoundException;
 
-public class StatisticalProcessorDeamon implements StatisticalProcessorStrategy {
+public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorStrategy {
 
 	@Override
 	public void processStatistics(String folder) throws Exception {
