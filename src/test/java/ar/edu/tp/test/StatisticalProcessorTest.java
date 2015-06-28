@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
@@ -70,6 +71,56 @@ public class StatisticalProcessorTest {
 	@Test(expected = TravelNotFoundException.class)
 	public void getBikeUsedMoreTimesShouldGetCeroBikesTest() throws TravelNotFoundException {
 		new StatisticalProcessor(new ArrayList<Travel>());
+	}
+
+	@Test
+	public void getBikeUsedMoreTimesShouldGetTwoBikeTest() throws TravelNotFoundException {
+		List<Travel> travels = new ArrayList<Travel>();
+		Travel travelBikeOne = createMockTravelWithBikeId("1");
+		Travel travelBikeTwo = createMockTravelWithBikeId("2");
+		travels.add(travelBikeOne);
+		travels.add(travelBikeTwo);
+
+		StatisticalProcessor processor = new StatisticalProcessor(travels);
+		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
+		Assert.assertEquals(2, bikeUsedMoreTimes.size());
+	}
+
+	@Test
+	public void getBikesUsedLessTimesShouldGetTwoBikesTest() throws TravelNotFoundException {
+		List<Travel> travels = new ArrayList<Travel>();
+		Travel travelBikeOne = createMockTravelWithBikeId("1");
+		Travel travelBikeTwo = createMockTravelWithBikeId("2");
+		travels.add(travelBikeOne);
+		travels.add(travelBikeTwo);
+
+		StatisticalProcessor processor = new StatisticalProcessor(travels);
+		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
+		Assert.assertEquals(2, bikeUsedMoreTimes.size());
+	}
+
+	@Test
+	public void getAverageUseTimeShouldGetOnlyOneAverageTest() throws TravelNotFoundException {
+		List<Travel> travels = new ArrayList<Travel>();
+		Travel travelBikeOne = createMockTravelWithBikeIdAndTime("1", 10D);
+		travels.add(travelBikeOne);
+
+		StatisticalProcessor processor = new StatisticalProcessor(travels);
+		Double averageUseTime = processor.getAverageUseTime();
+		Assert.assertEquals(10, averageUseTime, 0.0001);
+	}
+
+	private Travel createMockTravelWithBikeId(String bikeId) {
+		Travel travel = Mockito.mock(Travel.class);
+		Mockito.when(travel.getBike()).thenReturn(new Bike(bikeId));
+		return travel;
+	}
+
+	private Travel createMockTravelWithBikeIdAndTime(String bikeId, Double time) {
+		Travel travel = Mockito.mock(Travel.class);
+		Mockito.when(travel.getBike()).thenReturn(new Bike(bikeId));
+		Mockito.when(travel.getTime()).thenReturn(time);
+		return travel;
 	}
 
 }
