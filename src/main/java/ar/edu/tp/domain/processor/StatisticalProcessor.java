@@ -68,7 +68,6 @@ public class StatisticalProcessor {
 			timeTotal += time;
 			quantity++;
 		}
-		// TODO NANO: validar la division por cero.
 		return timeTotal / quantity;
 	}
 
