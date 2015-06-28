@@ -1,6 +1,7 @@
 package ar.edu.tp.test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.parser.ParserZipOnDemand;
 import ar.edu.tp.domain.processor.StatisticalProcessor;
-import ar.edu.tp.exception.TravelsNotFoundException;
+import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessorTest {
 
@@ -27,7 +28,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws TravelsNotFoundException {
+	public void getBikeUsedMoreTimesShouldGetBikeWithTwoUseTest() throws TravelNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Bike> bikeUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		Assert.assertEquals(1, bikeUsedMoreTimes.size());
@@ -35,7 +36,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws TravelsNotFoundException {
+	public void getBikesUsedLessTimesShouldGetBikesWithOneUseTest() throws TravelNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Bike> bikeUsedLessTimes = processor.getBikesUsedLessTimes();
 		Assert.assertEquals(7, bikeUsedLessTimes.size());
@@ -49,7 +50,7 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getTravelMoreDoneShouldGetPacificoAduanaTest() throws TravelsNotFoundException {
+	public void getTravelMoreDoneShouldGetPacificoAduanaTest() throws TravelNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		List<Travel> travelMoreDone = processor.getTravelMoreDone();
 		Location origin = new Location("21", "PACIFICO", null);
@@ -60,10 +61,15 @@ public class StatisticalProcessorTest {
 	}
 
 	@Test
-	public void getAverageUseTimeShouldGetAverageUseTest() throws TravelsNotFoundException {
+	public void getAverageUseTimeShouldGetAverageUseTest() throws TravelNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(travels);
 		Double averageUseTime = processor.getAverageUseTime();
 		Assert.assertEquals(25.8888888889, averageUseTime, 0.0001);
+	}
+
+	@Test(expected = TravelNotFoundException.class)
+	public void getBikeUsedMoreTimesShouldGetCeroBikesTest() throws TravelNotFoundException {
+		new StatisticalProcessor(new ArrayList<Travel>());
 	}
 
 }

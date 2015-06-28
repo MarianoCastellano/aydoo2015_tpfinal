@@ -14,7 +14,7 @@ import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
 import ar.edu.tp.domain.parser.ParserZipDeamon;
-import ar.edu.tp.exception.TravelsNotFoundException;
+import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorStrategy {
 
@@ -35,7 +35,7 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 		}
 	}
 
-	private void listenEvents(FileManager fileManager, WatchKey watckKey) throws IOException, TravelsNotFoundException {
+	private void listenEvents(FileManager fileManager, WatchKey watckKey) throws IOException, TravelNotFoundException {
 		List<WatchEvent<?>> events = watckKey.pollEvents();
 		for (WatchEvent<?> event : events) {
 			if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
@@ -44,7 +44,7 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 		}
 	}
 
-	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TravelsNotFoundException {
+	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TravelNotFoundException {
 		List<String> paths = fileManager.findPaths();
 
 		for (String path : paths) {

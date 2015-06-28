@@ -9,13 +9,13 @@ import java.util.Map;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Travel;
-import ar.edu.tp.exception.TravelsNotFoundException;
+import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessor {
 
 	private List<Travel> travels;
 
-	public StatisticalProcessor(List<Travel> travels) throws TravelsNotFoundException {
+	public StatisticalProcessor(List<Travel> travels) throws TravelNotFoundException {
 		this.travels = travels;
 		validateEmptyTravels();
 	}
@@ -126,9 +126,9 @@ public class StatisticalProcessor {
 		return count;
 	}
 
-	private void validateEmptyTravels() throws TravelsNotFoundException {
+	private void validateEmptyTravels() throws TravelNotFoundException {
 		if (this.travels == null || this.travels.isEmpty()) {
-			throw new TravelsNotFoundException("No hay recorridos para procesar");
+			throw new TravelNotFoundException("No hay recorridos para procesar");
 		}
 	}
 
