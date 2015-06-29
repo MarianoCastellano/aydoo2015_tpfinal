@@ -5,9 +5,10 @@
 Para ejecutar la aplicación por consola:
 
 <ol>
-<li>Generar el jar</li>
-<li>Ejecutar la aplicación</li>
+<li>Compilar la aplicación con ant</li>
+<li>Navegar hasta el directorio build del proyecto</li>
+<li>Ejecutar la aplicación:</li>
 </ol>
 
-- Modo demonio: java -jar aydoo.Procesador.jar <pathAbsolutoADirectorioConArchivosDeEntrada> demonio
-- Modo on-demand: java -jar aydoo.Procesador.jar <pathAbsolutoADirectorioConArchivosDeEntrada>
+- Modo demonio: java aydoo.Processor.MainStatisticalProcessor <pathAbsolutoADirectorioConArchivosDeEntrada> demonio
+- Modo on-demand: java aydoo.Processor.MainStatisticalProcessor <pathAbsolutoADirectorioConArchivosDeEntrada>

@@ -1,4 +1,8 @@
-package ar.edu.tp.domain.processor;
+package aydoo.Processor;
+
+import ar.edu.tp.domain.processor.StatisticalProcessorDeamonStrategy;
+import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
+import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
 
 public class MainStatisticalProcessor {
 
