@@ -13,3 +13,12 @@ hs_err_pid*
 /bin/
 /.classpath
 /.project
+
+
+*.sw*
+build/
+libs/
+tmp/
+.settings/
+build.xml.old
+*.jar

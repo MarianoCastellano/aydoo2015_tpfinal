@@ -40,7 +40,7 @@ public class ParserZipDeamon implements ParserZip {
 	}
 
 	private void proccesTravel(List<Travel> travels, InputStream stream) throws IOException {
-		String cvsSplitBy = ",";
+		String cvsSplitBy = ";";
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
 		Boolean isHeader = false;

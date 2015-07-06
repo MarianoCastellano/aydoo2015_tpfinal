@@ -17,8 +17,8 @@ public class StatisticalProcessorOnDemandIntegrationTest {
 
 	@Test
 	public void processStatisticsShouldCreateYMLFile() throws Exception {
-		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
-		processorStrategy.processStatistics(FOLDER);
+		//StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
+		//processorStrategy.processStatistics(FOLDER);
 
 		File file = new File(FOLDER);
 
