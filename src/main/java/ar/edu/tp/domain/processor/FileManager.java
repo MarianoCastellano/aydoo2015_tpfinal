@@ -43,7 +43,7 @@ public class FileManager {
 	}
 
 	public String extractNameFromFolder(String folder) {
-		String[] file = folder.split(REGEX);
-		return file[file.length - 1];
+		String file = folder.concat(REGEX);
+		return file;
 	}
 }

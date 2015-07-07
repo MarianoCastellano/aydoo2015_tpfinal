@@ -14,20 +14,24 @@ public class YamlExporter implements FileFormatExporter {
 	private String fileName;
 	private List<Bike> bikesUsedMoreTimes;
 	private List<Bike> bikesUsedLessTimes;
-	private Double averageUseTime;
+	private List<Bike> bikeLongerUsed;
+	private float averageUseTime;
 	private List<Travel> travelsMoreDone;
+	private float valueMaxTimeUsedBike;
 
-	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Travel> travelsMoreDone,
-			Double averageUseTime) {
+	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Bike> bikeLongerUsed,List<Travel> travelsMoreDone,
+			float averageUseTime,float valueMaxTimeUsedBike) {
 		this.fileName = fileName;
 		this.bikesUsedMoreTimes = bikesUsedMoreTimes;
 		this.bikesUsedLessTimes = bikesUsedLessTimes;
+		this.bikeLongerUsed=bikeLongerUsed;
 		this.averageUseTime = averageUseTime;
 		this.travelsMoreDone = travelsMoreDone;
+		this.valueMaxTimeUsedBike=valueMaxTimeUsedBike;
 	}
 
 	@Override
-	public void export() throws IOException {
+	public void export(long timeEjecution) throws IOException {
 		File file = new File(fileName.concat(getFormat()));
 		FileWriter fileWriter = new FileWriter(file);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -54,7 +58,20 @@ public class YamlExporter implements FileFormatExporter {
 		printWriter.write(System.lineSeparator());
 		printWriter.write(String.format("Tiempo promedio de uso: %f", averageUseTime));
 		printWriter.write(System.lineSeparator());
+		
+		printWriter.write(String.format("Bicicletas utilizada mas tiempo : "));
+		for (Bike bike : this.bikeLongerUsed) {
+			printValue(printWriter, bike);
+		}
+		printWriter.write(System.lineSeparator());
+		
+		printWriter.write(String.format("Tiempo de la bicicleta mas utilizada : %f", this.valueMaxTimeUsedBike*60));
 
+printWriter.write(System.lineSeparator());
+		
+		printWriter.write(String.format("Tiempo de ejecution en segundos: %f", (float)timeEjecution/1000));
+
+		
 		printWriter.close();
 
 		System.out.println(String.format("Archivo de salida creado: %s", file.getAbsoluteFile()));

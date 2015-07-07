@@ -4,12 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
+import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
@@ -18,32 +16,46 @@ import ar.edu.tp.domain.User;
 public class ParserZipDeamon implements ParserZip {
 
 	private String path;
+	private HashMap<Bike, TimeAndQuantityBike> mapBike ;
+	private HashMap<Travel, Integer> mapTravel ;
+
+
+	public HashMap<Bike, TimeAndQuantityBike> getMapBike() {
+		return mapBike;
+	}
+
+	public HashMap<Travel, Integer> getMapTravel() {
+		return mapTravel;
+	}
 
 	public ParserZipDeamon(String path) {
 		this.path = path;
 	}
 
 	@SuppressWarnings({ "resource", "unchecked" })
-	public List<Travel> parse() throws IOException {
-		List<Travel> travels = new ArrayList<Travel>();
-
+	public void parse() throws IOException {
+		
 		ZipFile zipFile = new ZipFile(path);
 
-		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
+		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile
+				.entries();
 
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 			InputStream stream = zipFile.getInputStream(entry);
-			proccesTravel(travels, stream);
+			proccesTravel(stream);
 		}
-		return travels;
+		
 	}
 
-	private void proccesTravel(List<Travel> travels, InputStream stream) throws IOException {
+	private void proccesTravel(InputStream stream)
+			throws IOException {
 		String cvsSplitBy = ";";
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
 		Boolean isHeader = false;
+		this.mapBike = new HashMap<Bike, TimeAndQuantityBike>();
+		this.mapTravel = new HashMap<Travel, Integer>();
 
 		while ((line = br.readLine()) != null) {
 			if (!isHeader) {
@@ -58,15 +70,47 @@ public class ParserZipDeamon implements ParserZip {
 				String destinationDate = row[5];
 				String destinationStationId = row[6];
 				String destinationName = row[7];
-				String time = row[8];
+				String time;
+				
+				if (row.length==8)
+				time="0";
+					else
+				time = row[8];
 
 				User user = new User(userId);
 				Bike bike = new Bike(bikeId);
 				bike.use(user);
-				Location origin = new Location(originStationId, originName, originDate);
-				Location destination = new Location(destinationStationId, destinationName, destinationDate);
-				Travel travel = new Travel(bike, origin, destination, time);
-				travels.add(travel);
+
+				if (mapBike.containsKey(bike)) {
+
+					TimeAndQuantityBike timeAndQuantityBike = mapBike.get(bike);
+					timeAndQuantityBike.setQuantityBikeOneMore();
+					timeAndQuantityBike.setTimeUsed(Float.valueOf(time));
+
+					mapBike.put(bike, timeAndQuantityBike);
+				} else {
+					TimeAndQuantityBike timeAndQuantityBike = new TimeAndQuantityBike();
+					mapBike.put(bike, timeAndQuantityBike);
+				}
+
+				Location origin = new Location(originStationId, originName,
+						originDate);
+				Location destination = new Location(destinationStationId,
+						destinationName, destinationDate);
+
+				Travel travel = new Travel(origin, destination);
+				
+				if (mapTravel.containsKey(travel)) {
+
+					int count = mapTravel.get(travel);
+					count++;
+
+					mapTravel.put(travel, count);
+				} else {
+					
+					mapTravel.put(travel, 1);
+				}
+
 			}
 		}
 

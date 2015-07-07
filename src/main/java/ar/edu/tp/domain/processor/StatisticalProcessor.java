@@ -1,7 +1,5 @@
 package ar.edu.tp.domain.processor;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,69 +7,129 @@ import java.util.Map;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.parser.TimeAndQuantityBike;
 import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessor {
 
-	private List<Travel> travels;
+	private HashMap<Bike,TimeAndQuantityBike> mapBike;
+	private HashMap <Travel,Integer> mapTravel;
+	private int valueMaxBike;
+	private int valueMinBike;
+	private float valueMaxTimeUsedBike;
+	private float totalTimeAverage;
 
-	public StatisticalProcessor(List<Travel> travels) throws TravelNotFoundException {
-		this.travels = travels;
-		validateEmptyTravels();
+	
+
+	public StatisticalProcessor(HashMap<Bike,TimeAndQuantityBike> mapBike,HashMap <Travel,Integer> mapTravel) throws TravelNotFoundException {
+		this.mapBike=mapBike;
+		this.mapTravel=mapTravel;
+		this.calculateMaxAndMinBikeAndTime();
+		//validateEmptyTravels();//////////ver esto validar que los mapas no esten vacios
 	}
-
+	
+	
+	public float getAverageUseTime() {
+		return totalTimeAverage;
+	}
 	public List<Bike> getBikesUsedMoreTimes() {
-		Map<Bike, Integer> useOfBike = generateUseOfBike();
+		List <Bike> listBike=new LinkedList <Bike>();
+		for (Map.Entry<Bike, TimeAndQuantityBike> mapa : this.mapBike.entrySet()) {
+			TimeAndQuantityBike timeAndQuantityBike=mapa.getValue();
+			if (timeAndQuantityBike.getQuantityBike()==this.valueMaxBike)
+				listBike.add(mapa.getKey());
+		}
 
-		Integer moreTimes = Collections.max(useOfBike.values());
-
-		return findBikesByFrecuency(useOfBike, moreTimes);
+		return listBike;
 	}
 
 	public List<Bike> getBikesUsedLessTimes() {
-		Map<Bike, Integer> useOfBike = generateUseOfBike();
+		List <Bike> listBike=new LinkedList <Bike>();
+		for (Map.Entry<Bike, TimeAndQuantityBike> mapa : this.mapBike.entrySet()) {
+			TimeAndQuantityBike timeAndQuantityBike=mapa.getValue();
+			if (timeAndQuantityBike.getQuantityBike()==this.valueMinBike)
+				listBike.add(mapa.getKey());
+		}
 
-		Integer lessTimes = Collections.min(useOfBike.values());
-
-		return findBikesByFrecuency(useOfBike, lessTimes);
+		return listBike;
 	}
+
+	public List<Bike> getBikeLongerUsed() {
+		List <Bike> listBike=new LinkedList <Bike>();
+		for (Map.Entry<Bike, TimeAndQuantityBike> mapa : this.mapBike.entrySet()) {
+			TimeAndQuantityBike timeAndQuantityBike=mapa.getValue();
+			if (timeAndQuantityBike.getTimeUsed()==this.valueMaxTimeUsedBike)
+				listBike.add(mapa.getKey());
+		}
+
+		return listBike;
+	}
+	
+	public float getValueMaxTimeUsedBike() {
+		return valueMaxTimeUsedBike;
+	}
+
 
 	public List<Travel> getTravelMoreDone() {
-
-		Map<Travel, Integer> travelCount = getTravelCountMap();
-
-		Integer maxCountOfTravelDone = Collections.max(travelCount.values());
-
-		return travelMoreDone(travelCount, maxCountOfTravelDone);
+		List <Travel> listTravel=new LinkedList <Travel>();
+			int countMaxTravel=this.travelMoreDone();
+		for (Map.Entry<Travel, Integer> e : this.mapTravel.entrySet()) {
+			Travel travel=e.getKey();
+			 if (countMaxTravel==e.getValue()) {
+				listTravel.add(travel);
+			}
+		}
+		return listTravel;
 	}
 
-	private List<Travel> travelMoreDone(Map<Travel, Integer> travelCount, Integer max) {
+	private int travelMoreDone() {
+int countMaxTravel=0;
+		
 
-		List<Travel> travels = new LinkedList<Travel>();
-
-		for (Map.Entry<Travel, Integer> e : travelCount.entrySet()) {
-			Travel key = e.getKey();
-			Integer value = e.getValue();
-			if (value.equals(max)) {
-				travels.add(key);
+		for (Map.Entry<Travel, Integer> e : this.mapTravel.entrySet()) {
+			
+			 if (countMaxTravel<e.getValue()) {
+				countMaxTravel=e.getValue();
 			}
 		}
 
-		return travels;
+		return countMaxTravel;
 	}
 
-	public Double getAverageUseTime() {
-		Double timeTotal = new Double(0);
-		Integer quantity = 0;
-		for (Travel travel : travels) {
-			Double time = travel.getTime();
-			timeTotal += time;
-			quantity++;
+	private void calculateMaxAndMinBikeAndTime() {/////////ver bien nombre
+		float timeTotal = 0;
+		int quantity = 0;
+		boolean estadoPrimeraVuelta = false;
+
+		for (Map.Entry<Bike, TimeAndQuantityBike> mapa : this.mapBike.entrySet()) {
+			TimeAndQuantityBike timeAndQuantityBike=mapa.getValue();
+			timeTotal+=timeAndQuantityBike.getTimeUsed();
+			quantity+=timeAndQuantityBike.getQuantityBike();
+			
+			if (!estadoPrimeraVuelta) {
+				
+				this.valueMaxBike = this.valueMinBike=timeAndQuantityBike.getQuantityBike();
+				this.valueMaxTimeUsedBike=timeAndQuantityBike.getTimeUsed();
+				estadoPrimeraVuelta = true;
+				
+
+				
+			} else {
+				if (this.valueMaxBike < timeAndQuantityBike.getQuantityBike())
+					this.valueMaxBike = timeAndQuantityBike.getQuantityBike();
+
+				if (this.valueMinBike > timeAndQuantityBike.getQuantityBike())
+					this.valueMinBike = timeAndQuantityBike.getQuantityBike();
+				
+				if (this.valueMaxTimeUsedBike<timeAndQuantityBike.getTimeUsed())
+					this.valueMaxTimeUsedBike=timeAndQuantityBike.getTimeUsed();
+			}
+
 		}
-		return timeTotal / quantity;
+		this.totalTimeAverage=timeTotal / quantity;
 	}
 
-	private List<Bike> findBikesByFrecuency(Map<Bike, Integer> useOfBike, Integer frecuency) {
+	/*private List<Bike> findBikesByFrecuency(Map<Bike, Integer> useOfBike, Integer frecuency) {
 		List<Bike> bikes = new LinkedList<Bike>();
 		for (Map.Entry<Bike, Integer> e : useOfBike.entrySet()) {
 			Bike key = e.getKey();
@@ -130,5 +188,5 @@ public class StatisticalProcessor {
 			throw new TravelNotFoundException("No hay recorridos para procesar");
 		}
 	}
-
+*/
 }

@@ -7,6 +7,7 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.util.HashMap;
 import java.util.List;
 
 import ar.edu.tp.domain.Bike;
@@ -14,10 +15,11 @@ import ar.edu.tp.domain.Travel;
 import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
 import ar.edu.tp.domain.parser.ParserZipDeamon;
+import ar.edu.tp.domain.parser.TimeAndQuantityBike;
 import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorStrategy {
-
+private long startTime;
 	@Override
 	public void processStatistics(String folder) throws Exception {
 		FileManager fileManager = new FileManager(folder);
@@ -45,24 +47,32 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 	}
 
 	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TravelNotFoundException {
-		List<String> paths = fileManager.findPaths();
+		this.startTime = System.currentTimeMillis();
 
+		List<String> paths = fileManager.findPaths();
+		
 		for (String path : paths) {
 			String fileName = fileManager.extractNameFromZipFile(fileZip);
 			ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
-			List<Travel> travels = parserZipDeamon.parse();
-			StatisticalProcessor processor = new StatisticalProcessor(travels);
+			 parserZipDeamon.parse();
+			 HashMap<Bike, TimeAndQuantityBike> mapBike =parserZipDeamon.getMapBike();
+			 HashMap<Travel, Integer> mapTravel=parserZipDeamon.getMapTravel() ;
+			StatisticalProcessor processor = new StatisticalProcessor(mapBike,mapTravel);
 			generateStatistics(processor, fileName);
 		}
 	}
 
-	private static void generateStatistics(StatisticalProcessor processor, String fileName) throws IOException {
+	private  void generateStatistics(StatisticalProcessor processor, String fileName) throws IOException {
 		List<Bike> bikesUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = processor.getBikesUsedLessTimes();
 		List<Travel> travelsMoreDone = processor.getTravelMoreDone();
-		Double averageUseTime = processor.getAverageUseTime();
+		List<Bike> bikeLongerUsed = processor.getBikeLongerUsed();
+		float averageUseTime = processor.getAverageUseTime();
+		float valueMaxTimeUsedBike=processor.getValueMaxTimeUsedBike();
 
-		FileFormatExporter yamlExporter = new YamlExporter(fileName, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
-		yamlExporter.export();
+		FileFormatExporter yamlExporter = new YamlExporter(fileName, bikesUsedMoreTimes, bikesUsedLessTimes,bikeLongerUsed, travelsMoreDone, averageUseTime, valueMaxTimeUsedBike);
+		
+		long endTime = System.currentTimeMillis() - this.startTime;
+		yamlExporter.export(endTime);
 	}
 }
