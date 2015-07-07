@@ -32,6 +32,10 @@ public class ParserZipDeamon implements ParserZip {
 		this.path = path;
 	}
 
+	public void setPath(String path){
+		this.path=path;
+		
+	}
 	@SuppressWarnings({ "resource", "unchecked" })
 	public void parse() throws IOException {
 		
