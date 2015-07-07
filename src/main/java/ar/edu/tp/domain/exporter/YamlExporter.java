@@ -18,9 +18,11 @@ public class YamlExporter implements FileFormatExporter {
 	private float averageUseTime;
 	private List<Travel> travelsMoreDone;
 	private float valueMaxTimeUsedBike;
+	private File folderOutput;
 
-	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Bike> bikeLongerUsed,List<Travel> travelsMoreDone,
+	public YamlExporter(File folderOutput,String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Bike> bikeLongerUsed,List<Travel> travelsMoreDone,
 			float averageUseTime,float valueMaxTimeUsedBike) {
+		this.folderOutput=folderOutput;
 		this.fileName = fileName;
 		this.bikesUsedMoreTimes = bikesUsedMoreTimes;
 		this.bikesUsedLessTimes = bikesUsedLessTimes;
@@ -85,7 +87,10 @@ public class YamlExporter implements FileFormatExporter {
 	
 	@Override
 	public void export(long timeEjecution) throws IOException {
-		File file = new File(fileName.concat(getFormat()));
+		
+		String[]  files=this.folderOutput.list();
+		int quantityFileInFolder=files.length+1;
+		File file = new File(this.folderOutput.getAbsolutePath().concat("/").concat(fileName).concat(String.valueOf(quantityFileInFolder)).concat(getFormat()));
 		FileWriter fileWriter = new FileWriter(file);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 

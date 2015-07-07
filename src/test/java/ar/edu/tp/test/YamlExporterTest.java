@@ -30,13 +30,20 @@ public class YamlExporterTest {
 		List<Bike> bikesUsedMoreTimes = generateBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = generateBikesUsedLessTimes();
 		List<Bike> bikeLongerUsed=this.bikeLongerUsed();
+	
 		float averageUseTime = 0;
 		List<Travel> travelsMoreDone = generateTravelsMoreDone();
 
-		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes,bikeLongerUsed ,travelsMoreDone, averageUseTime,0);
+		File folderOutput = new File("salida");
+		if (!folderOutput.exists()) {
+			folderOutput.mkdir();
+		}
+	
+		FileFormatExporter yamlExporter = new YamlExporter(folderOutput,FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes,bikeLongerUsed ,travelsMoreDone, averageUseTime,0);
 		yamlExporter.export(10);
-
-		File file = new File("prueba".concat(EXTENSION_FILE));
+		String[]  files=folderOutput.list();
+		int quantityFileInFolder=files.length;
+		File file = new File(folderOutput.getAbsolutePath().concat("/prueba".concat(String.valueOf(quantityFileInFolder)).concat(EXTENSION_FILE)));
 		Assert.assertTrue(file.exists());
 	}
 

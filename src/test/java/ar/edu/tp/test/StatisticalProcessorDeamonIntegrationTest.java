@@ -1,5 +1,7 @@
 package ar.edu.tp.test;
 
+import java.io.File;
+
 import org.junit.Test;
 
 import ar.edu.tp.domain.processor.StatisticalProcessorDeamonStrategy;
@@ -11,6 +13,12 @@ public class StatisticalProcessorDeamonIntegrationTest {
 	@Test(expected = DirectoryNotFoundException.class)
 	public void processStatisticsShouldNotFoundFolder() throws Exception {
 		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorDeamonStrategy();
-		processorStrategy.processStatistics("empty");
+
+		File folderOutput = new File("salida");
+		if (!folderOutput.exists()) {
+			folderOutput.mkdir();
+		}
+		
+		processorStrategy.processStatistics("empty",folderOutput);
 	}
 }
