@@ -30,47 +30,78 @@ public class YamlExporter implements FileFormatExporter {
 		this.valueMaxTimeUsedBike=valueMaxTimeUsedBike;
 	}
 
-	@Override
-	public void export(long timeEjecution) throws IOException {
-		File file = new File(fileName.concat(getFormat()));
-		FileWriter fileWriter = new FileWriter(file);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
-
+	
+	
+	private void printBikesUsedMoreTimes(PrintWriter printWriter){
+		
 		printWriter.write(String.format("Bicicletas mas usadas: "));
 		for (Bike bike : bikesUsedMoreTimes) {
 			printValue(printWriter, bike);
 		}
 
 		printWriter.write(System.lineSeparator());
-
+	}
+	
+	private void printBikesUsedLessTimes(PrintWriter printWriter){
 		printWriter.write(String.format("Bicicletas menos usadas: "));
 		for (Bike bike : bikesUsedLessTimes) {
 			printValue(printWriter, bike);
 		}
-
 		printWriter.write(System.lineSeparator());
-
-		printWriter.write(String.format("Recorrido mas realizado: "));
+		
+	}
+	
+	private void printTravelsMoreDone(PrintWriter printWriter){
+	printWriter.write(String.format("Recorrido mas realizado: "));
 		for (Travel travel : travelsMoreDone) {
 			printTravel(printWriter, travel);
 		}
 
-		printWriter.write(System.lineSeparator());
+		printWriter.write(System.lineSeparator());	
+	}
+	
+	private void printAverageUseTime(PrintWriter printWriter){
 		printWriter.write(String.format("Tiempo promedio de uso: %f", averageUseTime));
 		printWriter.write(System.lineSeparator());
-		
-		printWriter.write(String.format("Bicicletas utilizada mas tiempo : "));
+	}
+	
+	private void printBikeLongerUsed(PrintWriter printWriter){
+	printWriter.write(String.format("Bicicletas utilizada mas tiempo : "));
 		for (Bike bike : this.bikeLongerUsed) {
 			printValue(printWriter, bike);
 		}
-		printWriter.write(System.lineSeparator());
-		
+		printWriter.write(System.lineSeparator());	
+	}
+	
+	private void printValueMaxTimeUsedBike(PrintWriter printWriter){
 		printWriter.write(String.format("Tiempo de la bicicleta mas utilizada : %f", this.valueMaxTimeUsedBike*60));
 
-printWriter.write(System.lineSeparator());
-		
+        printWriter.write(System.lineSeparator());
+	}
+	private void printTimeEjecution(PrintWriter printWriter, long timeEjecution){
 		printWriter.write(String.format("Tiempo de ejecution en segundos: %f", (float)timeEjecution/1000));
+        printWriter.write(System.lineSeparator());
+	}
+	
+	@Override
+	public void export(long timeEjecution) throws IOException {
+		File file = new File(fileName.concat(getFormat()));
+		FileWriter fileWriter = new FileWriter(file);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 
+		this.printBikesUsedMoreTimes( printWriter);
+       
+		this.printBikesUsedLessTimes(printWriter);
+		
+		this.printTravelsMoreDone(printWriter);
+
+		this.printAverageUseTime(printWriter);
+		
+		this.printBikeLongerUsed(printWriter);
+		
+		this.printValueMaxTimeUsedBike(printWriter);
+		
+		this.printTimeEjecution(printWriter, timeEjecution);
 		
 		printWriter.close();
 
