@@ -1,4 +1,4 @@
-package aydoo.Processor;
+package aydoo;
 
 import java.io.File;
 
@@ -6,7 +6,7 @@ import ar.edu.tp.domain.processor.StatisticalProcessorDeamonStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
 
-public class MainStatisticalProcessor {
+public class Procesador {
 
 	public static void main(String[] args) throws Exception {
 		String folder = args[0];
