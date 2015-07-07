@@ -62,7 +62,7 @@ public class StatisticalProcessorDeamonStrategy implements
 		List<String> paths = fileManager.findPaths();
 
 		for (String path : paths) {
-			//String fileName = fileManager.extractNameFromZipFile(fileZip);
+			
 			ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
 			parserZipDeamon.parse();
 			HashMap<Bike, TimeAndQuantityBike> mapBike = parserZipDeamon

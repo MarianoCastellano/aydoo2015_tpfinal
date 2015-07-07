@@ -1,0 +1,20 @@
+Bicicletas mas usadas: 
+      id: 986
+Bicicletas menos usadas: 
+      id: 1274
+      id: 1522
+      id: 1205
+      id: 1524
+      id: 1442
+      id: 1433
+      id: 1035
+Recorrido mas realizado: 
+      id origen: 21
+      id destino: 5
+      id origen: 20
+      id destino: 7
+Tiempo promedio de uso: 6,666667
+Bicicletas utilizada mas tiempo : 
+      id: 986
+Tiempo de la bicicleta mas utilizada : 3600,000000
+Tiempo de ejecution en segundos: 0,018000
