@@ -34,7 +34,8 @@ public class StatisticalProcessorOnDemandStrategy implements StatisticalProcesso
 		 HashMap<Bike, TimeAndQuantityBike> mapBike =parserZipOnDemand.getDeamon().getMapBike();
 		 HashMap<Travel, Integer> mapTravel=parserZipOnDemand.getDeamon().getMapTravel() ;
 		StatisticalProcessor processor = new StatisticalProcessor(mapBike,mapTravel);
-				
+		
+		
 		generateStatistics(processor, fileName);
 		
 		
