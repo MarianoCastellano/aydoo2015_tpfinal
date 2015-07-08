@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Travel;
@@ -18,6 +21,7 @@ public class ParserZipDeamon implements ParserZip {
 	private String path;
 	private HashMap<Bike, TimeAndQuantityBike> mapBike;
 	private HashMap<Travel, Integer> mapTravel;
+	
 
 	public HashMap<Bike, TimeAndQuantityBike> getMapBike() {
 		return mapBike;
@@ -29,10 +33,29 @@ public class ParserZipDeamon implements ParserZip {
 
 	public ParserZipDeamon(String path) {
 		this.path = path;
+		this.mapBike = new HashMap<Bike, TimeAndQuantityBike>();
+		this.mapTravel = new HashMap<Travel, Integer>();
 	}
 
 	public void setPath(String path) {
 		this.path = path;
+
+	}
+
+
+	public void parse(List<String> paths) {
+		for (String path : paths) {
+			this.setPath(path);
+			try {
+				System.out.println();
+				System.out.println("Processing File ZIP name: "
+						+ path);
+				this.parse();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -47,13 +70,18 @@ public class ParserZipDeamon implements ParserZip {
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 			InputStream stream = zipFile.getInputStream(entry);
+			System.out.println("Processing File csv name: "
+					+ entry.getName());
 			proccesTravel(stream);
 		}
 
 	}
 
-	private void allocateMapBike(Bike bike, String time) {
-		if (mapBike.containsKey(bike)) {
+	private void allocateMapBike(String userId, String bikeId, String time) {
+		User user = new User(userId);
+		Bike bike = new Bike(bikeId);
+		bike.use(user);
+		if (this.mapBike.containsKey(bike)) {
 
 			TimeAndQuantityBike timeAndQuantityBike = mapBike.get(bike);
 			timeAndQuantityBike.setQuantityBikeOneMore();
@@ -62,6 +90,7 @@ public class ParserZipDeamon implements ParserZip {
 			mapBike.put(bike, timeAndQuantityBike);
 		} else {
 			TimeAndQuantityBike timeAndQuantityBike = new TimeAndQuantityBike();
+			timeAndQuantityBike.setTimeUsed(Float.valueOf(time));
 			mapBike.put(bike, timeAndQuantityBike);
 		}
 
@@ -94,8 +123,7 @@ public class ParserZipDeamon implements ParserZip {
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
 		Boolean isHeader = false;
-		this.mapBike = new HashMap<Bike, TimeAndQuantityBike>();
-		this.mapTravel = new HashMap<Travel, Integer>();
+	
 
 		while ((line = br.readLine()) != null) {
 			if (!isHeader) {
@@ -117,11 +145,7 @@ public class ParserZipDeamon implements ParserZip {
 				else
 					time = row[8];
 
-				User user = new User(userId);
-				Bike bike = new Bike(bikeId);
-				bike.use(user);
-
-				this.allocateMapBike(bike, time);
+				this.allocateMapBike(userId, bikeId, time);
 				this.allocateTravel(originDate, originStationId, originName,
 						destinationDate, destinationStationId, destinationName);
 			}

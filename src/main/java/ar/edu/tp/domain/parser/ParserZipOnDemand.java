@@ -14,10 +14,9 @@ public class ParserZipOnDemand implements ParserZip {
 
 	public void parse() throws IOException {
 		deamon = new ParserZipDeamon(" ");
-		for (String path : paths) {
-			deamon.setPath(path);
-			deamon.parse();
-		}
+	
+			deamon.parse(paths);
+			
 
 	}
 
