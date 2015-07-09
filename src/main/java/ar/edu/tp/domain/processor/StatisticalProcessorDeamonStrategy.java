@@ -69,15 +69,17 @@ public class StatisticalProcessorDeamonStrategy implements
 						.substring(watchEvent.context().toString().length() - 3);
 				@SuppressWarnings("unchecked")
 				WatchEvent<Path> ev = (WatchEvent<Path>) watchEvent;
-				Path pathFileName = ev.context();
+				Path dir = (Path)key.watchable();
+				Path fullPath = dir.resolve(ev.context());
 				
-				System.out.println("Processing File name: "
-						+ pathFileName.getFileName().toString());
+							
+				System.out.println("Processing File name: "+	fullPath);
+			
 				if (extendfile.equals("zip"))
-					proccessStatisticsByPaths(
-							this.folderIn.concat("/").concat(
-									pathFileName.toString()), watchEvent
+					proccessStatisticsByPaths(fullPath.toString(), watchEvent
 									.context().toString());
+				else
+					System.out.println("File is not zip");
 
 			}
 		}
