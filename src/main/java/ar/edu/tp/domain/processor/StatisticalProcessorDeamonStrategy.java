@@ -72,7 +72,7 @@ public class StatisticalProcessorDeamonStrategy implements
 				Path pathFileName = ev.context();
 				
 				System.out.println("Processing File name: "
-						+ pathFileName.toAbsolutePath().toString());
+						+ pathFileName.getFileName().toString());
 				if (extendfile.equals("zip"))
 					proccessStatisticsByPaths(
 							this.folderIn.concat("/").concat(

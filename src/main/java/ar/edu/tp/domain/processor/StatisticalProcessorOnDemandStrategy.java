@@ -28,7 +28,7 @@ public class StatisticalProcessorOnDemandStrategy implements StatisticalProcesso
 
 		List<String> paths = fileManager.findPaths();
 		
-	
+	if(!paths.isEmpty()){
 		ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
 		 parserZipOnDemand.parse();
 		 HashMap<Bike, TimeAndQuantityBike> mapBike =parserZipOnDemand.getDeamon().getMapBike();
@@ -38,9 +38,11 @@ public class StatisticalProcessorOnDemandStrategy implements StatisticalProcesso
 		
 		generateStatistics(processor, fileName);
 		
-		
-		
+	}else
+		System.out.println("The folder is empty");
+
 	}
+	
 
 	private  void generateStatistics(StatisticalProcessor processor, String fileName) throws IOException {
 		List<Bike> bikesUsedMoreTimes = processor.getBikesUsedMoreTimes();

@@ -16,8 +16,8 @@ public class ParserZipOnDemand implements ParserZip {
 		deamon = new ParserZipDeamon(" ");
 	
 			deamon.parse(paths);
-			
-
+	
+		
 	}
 
 	public ParserZipDeamon getDeamon() {
