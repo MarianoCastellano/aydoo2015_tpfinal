@@ -56,6 +56,13 @@ public class StatisticalProcessorDeamonStrategy implements
 			throws IOException, TravelNotFoundException {
 
 		Kind<?> kind = null;
+
+		try {
+ 			Thread.sleep(5000);
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
 	
 		for (WatchEvent<?> watchEvent : key.pollEvents()) {
 
@@ -72,12 +79,10 @@ public class StatisticalProcessorDeamonStrategy implements
 				Path dir = (Path)key.watchable();
 				Path fullPath = dir.resolve(ev.context());
 				
-							
 				System.out.println("Processing File name: "+	fullPath);
 			
 				if (extendfile.equals("zip"))
-					proccessStatisticsByPaths(fullPath.toString(), watchEvent
-									.context().toString());
+					proccessStatisticsByPaths(fullPath.toString());
 				else
 					System.out.println("File is not zip");
 
@@ -86,7 +91,7 @@ public class StatisticalProcessorDeamonStrategy implements
 
 	}
 
-	private void proccessStatisticsByPaths(String path, String fileZip)
+	private void proccessStatisticsByPaths(String path)
 			throws IOException, TravelNotFoundException {
 		this.startTime = System.currentTimeMillis();
 

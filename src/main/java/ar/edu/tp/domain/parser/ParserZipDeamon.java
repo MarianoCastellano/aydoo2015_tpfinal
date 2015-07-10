@@ -61,11 +61,10 @@ public class ParserZipDeamon implements ParserZip {
 
 	@SuppressWarnings({ "resource", "unchecked" })
 	public void parse() throws IOException {
-
+	
 		ZipFile zipFile = new ZipFile(path);
-
-		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile
-				.entries();
+		
+		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
 
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
