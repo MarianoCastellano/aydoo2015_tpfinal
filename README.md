@@ -10,8 +10,8 @@ Para ejecutar la aplicación por consola (Se adecuo la forma de ejecucion segun 
 <li>Ejecutar la aplicación:</li>
 </ol>
 
-- Modo demonio: java aydoo.Procesador <pathAbsolutoADirectorioConArchivosDeEntrada> demonio
-- Modo on-demand: java aydoo.Procesador <pathAbsolutoADirectorioConArchivosDeEntrada>
+- Modo demonio: java aydoo.Procesador pathAbsolutoADirectorioConArchivosDeEntrada demonio
+- Modo on-demand: java aydoo.Procesador pathAbsolutoADirectorioConArchivosDeEntrada
 
 <ol>
 <li>El archivo YML de salida sera alojado en la carpeta "salida" dentro de la carpeta build del proyecto</li>
