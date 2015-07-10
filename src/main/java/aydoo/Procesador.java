@@ -16,6 +16,14 @@ public class Procesador {
 		}
 		
 		if (folderOutput.exists()){
+			proccessCommandUserSelection(args, folder, folderOutput);
+		}else
+			System.out.println("ERROR - No se puede crear el directorio de salida");
+		
+	}
+
+	private static void proccessCommandUserSelection(String[] args,
+			String folder, File folderOutput) throws Exception {
 		StatisticalProcessorStrategy processorStrategy;
 
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
@@ -30,8 +38,5 @@ public class Procesador {
 			processorStrategy = new StatisticalProcessorOnDemandStrategy();
 			processorStrategy.processStatistics(folder,folderOutput);
 		}
-	}else
-		System.out.println("ERROR - No se puede crear el directorio de salida");
-		
 	}
 }

@@ -37,7 +37,7 @@ public class StatisticalProcessorOnDemandIntegrationTest {
 
 	//@Test(expected = DirectoryNotFoundException.class)
 	public void processStatisticsShouldNotFoundFolder() throws Exception {
-		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
+		//StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
 		//processorStrategy.processStatistics("empty");
 	}
 }

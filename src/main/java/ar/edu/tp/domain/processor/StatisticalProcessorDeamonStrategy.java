@@ -27,15 +27,13 @@ public class StatisticalProcessorDeamonStrategy implements
 	private long startTime;
 	private File folderOutput;
 	private final String fileName = "salida";
-	private String folderIn;
-
+	
 	@Override
 	public void processStatistics(String folder, File folderOutput)
 			throws Exception {
 		FileManager fileManager = new FileManager(folder);
 		fileManager.validateFolder();
 		this.folderOutput = folderOutput;
-		this.folderIn = folder;
 		Path folderPath = Paths.get(folder);
 
 		WatchService watcher = folderPath.getFileSystem().newWatchService();
@@ -45,50 +43,58 @@ public class StatisticalProcessorDeamonStrategy implements
 
 		while (true) {
 			watckKey = watcher.take();
-			listenEvents(fileManager, watckKey);
+			listenEvents(watckKey);
 			if (!watckKey.reset()) {
 				break;
 			}
 		}
 	}
 
-	private void listenEvents(FileManager fileManager, WatchKey key)
+	private void listenEvents(WatchKey key)
 			throws IOException, TravelNotFoundException {
-
-		Kind<?> kind = null;
 
 		try {
  			Thread.sleep(5000);
  		} catch (InterruptedException e) {
- 			// TODO Auto-generated catch block
  			e.printStackTrace();
  		}
 	
+		iterateWatchEventKey(key);
+
+	}
+
+	private void iterateWatchEventKey(WatchKey key) throws IOException,
+			TravelNotFoundException {
+		Kind<?> kind = null;
 		for (WatchEvent<?> watchEvent : key.pollEvents()) {
 
 			kind = watchEvent.kind();
 			if (OVERFLOW == kind) {
 				continue;
 			} else if (ENTRY_CREATE == kind) {
-				String extendfile = watchEvent
-						.context()
-						.toString()
-						.substring(watchEvent.context().toString().length() - 3);
-				@SuppressWarnings("unchecked")
-				WatchEvent<Path> ev = (WatchEvent<Path>) watchEvent;
-				Path dir = (Path)key.watchable();
-				Path fullPath = dir.resolve(ev.context());
-				
-				System.out.println("Processing File name: "+	fullPath);
-			
-				if (extendfile.equals("zip"))
-					proccessStatisticsByPaths(fullPath.toString());
-				else
-					System.out.println("File is not zip");
+				doKindEntryCreate(key, watchEvent);
 
 			}
 		}
+	}
 
+	private void doKindEntryCreate(WatchKey key, WatchEvent<?> watchEvent)
+			throws IOException, TravelNotFoundException {
+		String extendfile = watchEvent
+				.context()
+				.toString()
+				.substring(watchEvent.context().toString().length() - 3);
+		@SuppressWarnings("unchecked")
+		WatchEvent<Path> ev = (WatchEvent<Path>) watchEvent;
+		Path dir = (Path)key.watchable();
+		Path fullPath = dir.resolve(ev.context());
+		
+		System.out.println("Processing File name: "+	fullPath);
+
+		if (extendfile.equals("zip"))
+			proccessStatisticsByPaths(fullPath.toString());
+		else
+			System.out.println("File is not zip");
 	}
 
 	private void proccessStatisticsByPaths(String path)
@@ -103,7 +109,7 @@ public class StatisticalProcessorDeamonStrategy implements
 		HashMap<Travel, Integer> mapTravel = parserZipDeamon.getMapTravel();
 		StatisticalProcessor processor = new StatisticalProcessor(mapBike,
 				mapTravel);
-		generateStatistics(processor, fileName);
+		generateStatistics(processor, this.fileName);
 
 	}
 
@@ -117,7 +123,7 @@ public class StatisticalProcessorDeamonStrategy implements
 		float valueMaxTimeUsedBike = processor.getValueMaxTimeUsedBike();
 
 		FileFormatExporter yamlExporter = new YamlExporter(folderOutput,
-				this.fileName, bikesUsedMoreTimes, bikesUsedLessTimes,
+				fileName, bikesUsedMoreTimes, bikesUsedLessTimes,
 				bikeLongerUsed, travelsMoreDone, averageUseTime,
 				valueMaxTimeUsedBike);
 
