@@ -29,13 +29,21 @@ public class YamlExporterTest {
 	public void exportYamlShouldCreateAFileWithStatisticalInformation() throws Exception {
 		List<Bike> bikesUsedMoreTimes = generateBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = generateBikesUsedLessTimes();
-		Double averageUseTime = 0D;
+		List<Bike> bikeLongerUsed=this.bikeLongerUsed();
+	
+		float averageUseTime = 0;
 		List<Travel> travelsMoreDone = generateTravelsMoreDone();
 
-		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
-		yamlExporter.export();
-
-		File file = new File("prueba".concat(EXTENSION_FILE));
+		File folderOutput = new File("salidaTests");
+		if (!folderOutput.exists()) {
+			folderOutput.mkdir();
+		}
+	
+		FileFormatExporter yamlExporter = new YamlExporter(folderOutput,FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes,bikeLongerUsed ,travelsMoreDone, averageUseTime,0);
+		yamlExporter.export(10);
+		String[]  files=folderOutput.list();
+		int quantityFileInFolder=files.length;
+		File file = new File(folderOutput.getAbsolutePath().concat("/prueba".concat(String.valueOf(quantityFileInFolder)).concat(EXTENSION_FILE)));
 		Assert.assertTrue(file.exists());
 	}
 
@@ -51,11 +59,16 @@ public class YamlExporterTest {
 		return bikesUsedMoreTimes;
 	}
 	
+	private List<Bike> bikeLongerUsed() {
+		List<Bike> bikesUsedMoreTimes = new ArrayList<Bike>();
+		bikesUsedMoreTimes.add(new Bike("5"));
+		return bikesUsedMoreTimes;
+	}
 	private List<Travel> generateTravelsMoreDone() {
 		Location origin = new Location("12", "PALERMO", null );
 		Location destiny = new Location("10", "RETIRO", null );
 		List<Travel> travelsMoreDone = new ArrayList<Travel>();
-		travelsMoreDone.add(new Travel(null, origin, destiny, "10"));
+		travelsMoreDone.add(new Travel(origin, destiny));
 		return travelsMoreDone;
 	}
 }

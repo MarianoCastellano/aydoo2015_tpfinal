@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface FileFormatExporter {
 
-	void export() throws IOException;
+	void export(long timeEjecution) throws IOException;
 
 	String getFormat();
 }

@@ -2,21 +2,19 @@ package ar.edu.tp.domain;
 
 public class Travel {
 
-	private Bike bike;
+
 	private Location origin;
 	private Location destination;
-	private String time;
 
-	public Travel(Bike bike, Location origin, Location destination, String time) {
-		this.bike = bike;
+
+	public Travel( Location origin, Location destination) {
+	
 		this.origin = origin;
 		this.destination = destination;
-		this.time = time;
+		
 	}
 
-	public Bike getBike() {
-		return bike;
-	}
+	
 
 	public Location getDestination() {
 		return destination;
@@ -26,9 +24,7 @@ public class Travel {
 		return origin;
 	}
 
-	public Double getTime() {
-		return Double.parseDouble(time);
-	}
+	
 	
 	@Override
 	public int hashCode() {
