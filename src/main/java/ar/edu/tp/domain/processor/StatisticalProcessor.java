@@ -24,8 +24,7 @@ public class StatisticalProcessor {
 		this.mapBike = mapBike;
 		this.mapTravel = mapTravel;
 		this.calculateMaxAndMinBikeAndTime();
-		// validateEmptyTravels();//////////ver esto validar que los mapas no
-		// esten vacios
+		
 	}
 
 	public float getAverageUseTime() {
