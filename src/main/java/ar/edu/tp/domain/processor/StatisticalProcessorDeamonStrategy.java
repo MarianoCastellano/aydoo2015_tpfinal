@@ -29,12 +29,12 @@ public class StatisticalProcessorDeamonStrategy implements
 	private final String fileName = "salida";
 	
 	@Override
-	public void processStatistics(String folder, File folderOutput)
+	public void processStatistics(String folderInput, File folderOutput)
 			throws Exception {
-		FileManager fileManager = new FileManager(folder);
+		FileManager fileManager = new FileManager(folderInput);
 		fileManager.validateFolder();
 		this.folderOutput = folderOutput;
-		Path folderPath = Paths.get(folder);
+		Path folderPath = Paths.get(folderInput);
 
 		WatchService watcher = folderPath.getFileSystem().newWatchService();
 		folderPath.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);

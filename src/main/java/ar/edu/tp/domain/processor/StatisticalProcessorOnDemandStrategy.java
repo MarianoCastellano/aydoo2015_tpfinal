@@ -13,33 +13,30 @@ import ar.edu.tp.domain.parser.ParserZipOnDemand;
 import ar.edu.tp.domain.parser.TimeAndQuantityBike;
 
 
-
-
 public class StatisticalProcessorOnDemandStrategy implements StatisticalProcessorStrategy {
 	private long startTime;
 	private File folderOutput;
 	private final String  fileName="salida";
 	@Override
-	public void processStatistics(String folder,File folderOutput) throws Exception {
+	public void processStatistics(String folderInput,File folderOutput) throws Exception {
 		this.startTime = System.currentTimeMillis();
-		FileManager fileManager = new FileManager(folder);
+		FileManager fileManager = new FileManager(folderInput);
 		fileManager.validateFolder();
 		this.folderOutput=folderOutput;
 
 		List<String> paths = fileManager.findPaths();
 		
-	if(!paths.isEmpty()){
-		ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
-		 parserZipOnDemand.parse();
-		 HashMap<Bike, TimeAndQuantityBike> mapBike =parserZipOnDemand.getDeamon().getMapBike();
-		 HashMap<Travel, Integer> mapTravel=parserZipOnDemand.getDeamon().getMapTravel() ;
-		StatisticalProcessor processor = new StatisticalProcessor(mapBike,mapTravel);
+		if(!paths.isEmpty()){
+			ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
+			parserZipOnDemand.parse();
+			HashMap<Bike, TimeAndQuantityBike> mapBike =parserZipOnDemand.getDeamon().getMapBike();
+			HashMap<Travel, Integer> mapTravel=parserZipOnDemand.getDeamon().getMapTravel() ;
+			StatisticalProcessor processor = new StatisticalProcessor(mapBike,mapTravel);
+			
+			generateStatistics(processor, fileName);
 		
-		
-		generateStatistics(processor, fileName);
-		
-	}else
-		System.out.println("The folder is empty");
+		}else
+			System.out.println("The folder is empty");
 
 	}
 	

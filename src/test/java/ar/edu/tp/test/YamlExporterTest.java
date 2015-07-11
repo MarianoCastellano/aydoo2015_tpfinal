@@ -34,7 +34,7 @@ public class YamlExporterTest {
 		float averageUseTime = 0;
 		List<Travel> travelsMoreDone = generateTravelsMoreDone();
 
-		File folderOutput = new File("salida");
+		File folderOutput = new File("salidaTests");
 		if (!folderOutput.exists()) {
 			folderOutput.mkdir();
 		}

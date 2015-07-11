@@ -7,37 +7,49 @@ import org.junit.Test;
 
 import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
-//import ar.edu.tp.exception.DirectoryNotFoundException;
-//import ar.edu.tp.exception.TravelNotFoundException;
+import ar.edu.tp.exception.DirectoryNotFoundException;
+import ar.edu.tp.exception.TravelNotFoundException;
 
 public class StatisticalProcessorOnDemandIntegrationTest {
 
-	private static final String FOLDER = "resources";
-	//private static final String FOLDER_DIAGARMS = "diagrams";
+	private static final String FOLDER_RESOURCES = "resourcesTests";
+	private static final String FOLDER_DIAGRAMS = "diagrams";
 
 	@Test
 	public void processStatisticsShouldCreateYMLFile() throws Exception {
-		File folderOutput = new File("salida");
+		File folderOutput = new File("salidaTests");
 		if (!folderOutput.exists()) {
 			folderOutput.mkdir();
 		}
 		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
-		processorStrategy.processStatistics(FOLDER,folderOutput);
+		processorStrategy.processStatistics(FOLDER_RESOURCES,folderOutput);
 
 		File file = new File(folderOutput.getAbsolutePath());
 
 		Assert.assertTrue(file.exists());
 	}
 
-	//@Test(expected = TravelNotFoundException.class)
-	public void processStatisticsShouldNotFoundTravels() throws Exception {
-	//	StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
-	//	processorStrategy.processStatistics(FOLDER_DIAGARMS);
+	@Test
+	public void processStatisticsShouldNotFoundTravels() throws TravelNotFoundException {
+		try{	
+			File folderOutput = new File("salidaTests");
+			if (!folderOutput.exists()) {
+				folderOutput.mkdir();
+			}
+			StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
+			processorStrategy.processStatistics(FOLDER_DIAGRAMS,folderOutput);
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
 	}
 
-	//@Test(expected = DirectoryNotFoundException.class)
+	@Test(expected = DirectoryNotFoundException.class)
 	public void processStatisticsShouldNotFoundFolder() throws Exception {
-		//StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
-		//processorStrategy.processStatistics("empty");
+		File folderOutput = new File("salidaTests");
+		if (!folderOutput.exists()) {
+			folderOutput.mkdir();
+		}
+		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
+		processorStrategy.processStatistics("empty",folderOutput);
 	}
 }

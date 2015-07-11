@@ -14,7 +14,7 @@ public class StatisticalProcessorDeamonIntegrationTest {
 	public void processStatisticsShouldNotFoundFolder() throws Exception {
 		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorDeamonStrategy();
 
-		File folderOutput = new File("salida");
+		File folderOutput = new File("salidaTests");
 		if (!folderOutput.exists()) {
 			folderOutput.mkdir();
 		}

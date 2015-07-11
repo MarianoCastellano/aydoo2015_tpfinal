@@ -24,7 +24,6 @@ public class StatisticalProcessor {
 		this.mapBike = mapBike;
 		this.mapTravel = mapTravel;
 		this.calculateMaxAndMinBikeAndTime();
-		
 	}
 
 	public float getAverageUseTime() {
