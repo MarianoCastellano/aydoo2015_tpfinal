@@ -18,8 +18,8 @@ public class ParserZipOnDemand implements ParserZip {
 		List<Trip> trips = new ArrayList<Trip>();
 
 		for (String path : paths) {
-			ParserZipDeamon deamon = new ParserZipDeamon(path);
-			List<Trip> parse = deamon.parse();
+			ParserZipDaemon daemon = new ParserZipDaemon(path);
+			List<Trip> parse = daemon.parse();
 			trips.addAll(parse);
 		}
 		return trips;

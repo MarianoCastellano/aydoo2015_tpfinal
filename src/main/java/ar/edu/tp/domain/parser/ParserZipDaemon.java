@@ -15,11 +15,11 @@ import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Trip;
 import ar.edu.tp.domain.User;
 
-public class ParserZipDeamon implements ParserZip {
+public class ParserZipDaemon implements ParserZip {
 
 	private String path;
 
-	public ParserZipDeamon(String path) {
+	public ParserZipDaemon(String path) {
 		this.path = path;
 	}
 

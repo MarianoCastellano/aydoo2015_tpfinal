@@ -13,10 +13,10 @@ import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Trip;
 import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
-import ar.edu.tp.domain.parser.ParserZipDeamon;
+import ar.edu.tp.domain.parser.ParserZipDaemon;
 import ar.edu.tp.exception.TripNotFoundException;
 
-public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorStrategy {
+public class StatisticalProcessorDaemonStrategy implements StatisticalProcessorStrategy {
 
 	@Override
 	public void processStatistics(String folder) throws Exception {
@@ -49,8 +49,8 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 
 		for (String path : paths) {
 			String fileName = fileManager.extractNameFromZipFile(fileZip);
-			ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
-			List<Trip> trips = parserZipDeamon.parse();
+			ParserZipDaemon parserZipDaemon = new ParserZipDaemon(path);
+			List<Trip> trips = parserZipDaemon.parse();
 			StatisticalProcessor processor = new StatisticalProcessor(trips);
 			generateStatistics(processor, fileName);
 		}

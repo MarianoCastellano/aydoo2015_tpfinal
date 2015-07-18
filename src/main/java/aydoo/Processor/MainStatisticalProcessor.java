@@ -2,7 +2,7 @@ package aydoo.Processor;
 
 import java.util.concurrent.TimeUnit;
 
-import ar.edu.tp.domain.processor.StatisticalProcessorDeamonStrategy;
+import ar.edu.tp.domain.processor.StatisticalProcessorDaemonStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
 
@@ -16,7 +16,7 @@ public class MainStatisticalProcessor {
 		if (args.length > 1 && args[1].equalsIgnoreCase("demonio")) {
 			System.out.println("Modo demonio.");
 
-			processorStrategy = new StatisticalProcessorDeamonStrategy();
+			processorStrategy = new StatisticalProcessorDaemonStrategy();
 			processorStrategy.processStatistics(folder);
 
 		} else {
