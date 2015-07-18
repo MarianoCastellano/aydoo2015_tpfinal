@@ -21,7 +21,7 @@ public class YamlExporterTest {
 
 	@After
 	public void clean() {
-	File file = new File("prueba".concat(EXTENSION_FILE));
+		File file = new File("prueba".concat(EXTENSION_FILE));
 		file.delete();
 	}
 
@@ -50,12 +50,12 @@ public class YamlExporterTest {
 		bikesUsedMoreTimes.add(new Bike("1"));
 		return bikesUsedMoreTimes;
 	}
-	
+
 	private List<Trip> generateTripMoreDone() {
-		Location origin = new Location("12", "PALERMO", null );
-		Location destiny = new Location("10", "RETIRO", null );
+		Location origin = new Location("12", "PALERMO", null);
+		Location destiny = new Location("10", "RETIRO", null);
 		List<Trip> tripMoreDone = new ArrayList<Trip>();
-		tripMoreDone.add(new Trip(null, origin, destiny, "10"));
+		tripMoreDone.add(new Trip(null, origin, destiny, 10));
 		return tripMoreDone;
 	}
 }

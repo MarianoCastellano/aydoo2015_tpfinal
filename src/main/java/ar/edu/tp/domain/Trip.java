@@ -5,9 +5,9 @@ public class Trip {
 	private Bike bike;
 	private Location origin;
 	private Location destination;
-	private String time;
+	private double time;
 
-	public Trip(Bike bike, Location origin, Location destination, String time) {
+	public Trip(Bike bike, Location origin, Location destination, double time) {
 		this.bike = bike;
 		this.origin = origin;
 		this.destination = destination;
@@ -26,8 +26,8 @@ public class Trip {
 		return origin;
 	}
 
-	public Double getTime() {
-		return Double.parseDouble(time);
+	public double getTime() {
+		return time;
 	}
 
 	@Override

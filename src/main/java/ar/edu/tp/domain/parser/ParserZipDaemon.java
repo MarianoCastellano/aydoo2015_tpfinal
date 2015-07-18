@@ -40,7 +40,7 @@ public class ParserZipDaemon implements ParserZip {
 	}
 
 	private void proccesTrip(List<Trip> trips, InputStream stream) throws IOException {
-		String cvsSplitBy = ",";
+		String cvsSplitBy = ";";
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
 		Boolean isHeader = false;
@@ -49,8 +49,8 @@ public class ParserZipDaemon implements ParserZip {
 			if (!isHeader) {
 				isHeader = true;
 			} else {
+				String[] row = line.split(cvsSplitBy);
 				try {
-					String[] row = line.split(cvsSplitBy);
 					String userId = row[0];
 					String bikeId = row[1];
 					String originDate = row[2];
@@ -66,14 +66,12 @@ public class ParserZipDaemon implements ParserZip {
 					bike.use(user);
 					Location origin = new Location(originStationId, originName, originDate);
 					Location destination = new Location(destinationStationId, destinationName, destinationDate);
-					Trip trip = new Trip(bike, origin, destination, time);
+					Trip trip = new Trip(bike, origin, destination, Double.valueOf(time));
 					trips.add(trip);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					System.out.println("ERROR");
+					System.out.println("Error al procesar el registro");
 				}
 			}
 		}
-
 	}
-
 }

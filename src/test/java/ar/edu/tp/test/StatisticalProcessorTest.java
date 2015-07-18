@@ -2,7 +2,6 @@ package ar.edu.tp.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -13,19 +12,46 @@ import org.mockito.Mockito;
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
 import ar.edu.tp.domain.Trip;
-import ar.edu.tp.domain.parser.ParserZipOnDemand;
+import ar.edu.tp.domain.User;
 import ar.edu.tp.domain.processor.StatisticalProcessor;
 import ar.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessorTest {
 
-	private static final List<String> RECORRIDOS_2013_ZIP = Arrays.asList("resources/recorrido-2013.zip");
-	private List<Trip> trips;
+	private List<Trip> trips = new ArrayList<Trip>();
 
 	@Before
 	public void init() throws IOException {
-		ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(RECORRIDOS_2013_ZIP);
-		trips = parserZipOnDemand.parse();
+		createTrip("36680", "1524", "2013-01-02 07:49:52.937", "20", "ONCE", "2013-01-02 08:11:36.67", "32", "PARQUE PATRICIOS", "22");
+		createTrip("68894", "1205", "2013-01-02 07:52:11.53", "20", "ONCE", "2013-01-02 08:23:01.123", "7", "PLAZA ROMA", "31");
+		createTrip("69014", "986", "2013-01-02 07:53:56.14", "25", "PLAZA ALMAGRO", "2013-01-02 08:25:04.297", "19", "PLAZA VICENTE LOPEZ", "31");
+		createTrip("72429", "986", "2013-01-02 07:54:55.187", "21", "PACIFICO", "2013-01-02 08:54:29.293", "5", "ADUANA", "60");
+		createTrip("35910", "1274", "2013-01-02 07:55:22.483", "25", "PLAZA ALMAGRO", "2013-01-02 08:13:43.577", "10", "OBELISCO", "18");
+		createTrip("60364", "1433", "2013-01-02 07:55:40.53", "21", "PACIFICO", "2013-01-02 08:14:10.687", "5", "ADUANA", "19");
+		createTrip("55665", "1035", "2013-01-02 07:55:46.78", "21", "PACIFICO", "2013-01-02 07:57:12.06", "21", "PACIFICO", "1");
+		createTrip("72167", "1522", "2013-01-02 07:56:08.36", "3", "RETIRO", "2013-01-02 08:03:51.39", "36", "EMMA DE LA BARRA", "8");
+		createTrip("70759", "1442", "2013-01-02 07:56:56.95", "32", "PARQUE PATRICIOS", "2013-01-02 08:40:15.297", "21", "PACIFICO", "43");
+
+		createTrip("36680", "1524", "2013-01-02 07:49:52.937", "20", "ONCE", "2013-01-02 08:11:36.67", "7", "PLAZA ROMA", "22");
+		createTrip("68894", "1205", "2013-01-02 07:52:11.53", "20", "ONCE", "2013-01-02 08:23:01.123", "7", "PLAZA ROMA", "31");
+		createTrip("69014", "986", "2013-01-02 07:53:56.14", "25", "PLAZA ALMAGRO", "2013-01-02 08:25:04.297", "19", "PLAZA VICENTE LOPEZ", "31");
+		createTrip("72429", "986", "2013-01-02 07:54:55.187", "21", "PACIFICO", "2013-01-02 08:54:29.293", "5", "ADUANA", "60");
+		createTrip("35910", "1274", "2013-01-02 07:55:22.483", "25", "PLAZA ALMAGRO", "2013-01-02 08:13:43.577", "10", "OBELISCO", "18");
+		createTrip("60364", "1433", "2013-01-02 07:55:40.53", "21", "PACIFICO", "2013-01-02 08:14:10.687", "5", "ADUANA", "19");
+		createTrip("55665", "1035", "2013-01-02 07:55:46.78", "21", "PACIFICO", "2013-01-02 07:57:12.06", "21", "PACIFICO", "1");
+		createTrip("72167", "1522", "2013-01-02 07:56:08.36", "3", "RETIRO", "2013-01-02 08:03:51.39", "36", "EMMA DE LA BARRA", "8");
+		createTrip("70759", "1442", "2013-01-02 07:56:56.95", "32", "PARQUE PATRICIOS", "2013-01-02 08:40:15.297", "21", "PACIFICO", "43");
+	}
+
+	private void createTrip(String userId, String bikeId, String originDate, String originStationId, String originName, String destinationDate,
+			String destinationStationId, String destinationName, String time) {
+		User user = new User(userId);
+		Bike bike = new Bike(bikeId);
+		bike.use(user);
+		Location origin = new Location(originStationId, originName, originDate);
+		Location destination = new Location(destinationStationId, destinationName, destinationDate);
+		Trip trip = new Trip(bike, origin, destination, Double.valueOf(time));
+		trips.add(trip);
 	}
 
 	@Test
@@ -54,11 +80,12 @@ public class StatisticalProcessorTest {
 	public void getTripsMoreDoneShouldGetPacificoAduanaTest() throws TripNotFoundException {
 		StatisticalProcessor processor = new StatisticalProcessor(trips);
 		List<Trip> tripsMoreDone = processor.getTripsMoreDone();
-		Location origin = new Location("21", "PACIFICO", null);
-		Location destiny = new Location("5", "ADUANA", null);
 
-		Assert.assertEquals(origin, tripsMoreDone.get(0).getOrigin());
-		Assert.assertEquals(destiny, tripsMoreDone.get(0).getDestination());
+		String originExpected = tripsMoreDone.get(0).getOrigin().getOriginStationId();
+		String destinationExpected = tripsMoreDone.get(0).getDestination().getOriginStationId();
+
+		Assert.assertEquals("21", originExpected);
+		Assert.assertEquals("5", destinationExpected);
 	}
 
 	@Test
