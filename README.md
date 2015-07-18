@@ -10,5 +10,5 @@ Para ejecutar la aplicación por consola:
 <li>Ejecutar la aplicación:</li>
 </ol>
 
-- Modo demonio: java aydoo.Processor.MainStatisticalProcessor <pathAbsolutoADirectorioConArchivosDeEntrada> demonio
-- Modo on-demand: java aydoo.Processor.MainStatisticalProcessor <pathAbsolutoADirectorioConArchivosDeEntrada>
+- Modo demonio: java aydoo.Procesador <pathAbsolutoADirectorioConArchivosDeEntrada> demonio
+- Modo on-demand: java aydoo.Procesador <pathAbsolutoADirectorioConArchivosDeEntrada>
