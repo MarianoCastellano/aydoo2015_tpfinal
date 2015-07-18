@@ -8,7 +8,7 @@ import org.junit.Test;
 import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
 import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
 import ar.edu.tp.exception.DirectoryNotFoundException;
-import ar.edu.tp.exception.TravelNotFoundException;
+import ar.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessorOnDemandIntegrationTest {
 
@@ -25,8 +25,8 @@ public class StatisticalProcessorOnDemandIntegrationTest {
 		Assert.assertTrue(file.exists());
 	}
 
-	@Test(expected = TravelNotFoundException.class)
-	public void processStatisticsShouldNotFoundTravels() throws Exception {
+	@Test(expected = TripNotFoundException.class)
+	public void processStatisticsShouldNotFoundTrips() throws Exception {
 		StatisticalProcessorStrategy processorStrategy = new StatisticalProcessorOnDemandStrategy();
 		processorStrategy.processStatistics(FOLDER_DIAGARMS);
 	}

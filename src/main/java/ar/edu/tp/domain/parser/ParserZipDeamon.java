@@ -12,7 +12,7 @@ import java.util.zip.ZipFile;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.Trip;
 import ar.edu.tp.domain.User;
 
 public class ParserZipDeamon implements ParserZip {
@@ -24,8 +24,8 @@ public class ParserZipDeamon implements ParserZip {
 	}
 
 	@SuppressWarnings({ "resource", "unchecked" })
-	public List<Travel> parse() throws IOException {
-		List<Travel> travels = new ArrayList<Travel>();
+	public List<Trip> parse() throws IOException {
+		List<Trip> trips = new ArrayList<Trip>();
 
 		ZipFile zipFile = new ZipFile(path);
 
@@ -34,12 +34,12 @@ public class ParserZipDeamon implements ParserZip {
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 			InputStream stream = zipFile.getInputStream(entry);
-			proccesTravel(travels, stream);
+			proccesTrip(trips, stream);
 		}
-		return travels;
+		return trips;
 	}
 
-	private void proccesTravel(List<Travel> travels, InputStream stream) throws IOException {
+	private void proccesTrip(List<Trip> trips, InputStream stream) throws IOException {
 		String cvsSplitBy = ",";
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
@@ -49,24 +49,28 @@ public class ParserZipDeamon implements ParserZip {
 			if (!isHeader) {
 				isHeader = true;
 			} else {
-				String[] row = line.split(cvsSplitBy);
-				String userId = row[0];
-				String bikeId = row[1];
-				String originDate = row[2];
-				String originStationId = row[3];
-				String originName = row[4];
-				String destinationDate = row[5];
-				String destinationStationId = row[6];
-				String destinationName = row[7];
-				String time = row[8];
+				try {
+					String[] row = line.split(cvsSplitBy);
+					String userId = row[0];
+					String bikeId = row[1];
+					String originDate = row[2];
+					String originStationId = row[3];
+					String originName = row[4];
+					String destinationDate = row[5];
+					String destinationStationId = row[6];
+					String destinationName = row[7];
+					String time = row[8];
 
-				User user = new User(userId);
-				Bike bike = new Bike(bikeId);
-				bike.use(user);
-				Location origin = new Location(originStationId, originName, originDate);
-				Location destination = new Location(destinationStationId, destinationName, destinationDate);
-				Travel travel = new Travel(bike, origin, destination, time);
-				travels.add(travel);
+					User user = new User(userId);
+					Bike bike = new Bike(bikeId);
+					bike.use(user);
+					Location origin = new Location(originStationId, originName, originDate);
+					Location destination = new Location(destinationStationId, destinationName, destinationDate);
+					Trip trip = new Trip(bike, origin, destination, time);
+					trips.add(trip);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("ERROR");
+				}
 			}
 		}
 

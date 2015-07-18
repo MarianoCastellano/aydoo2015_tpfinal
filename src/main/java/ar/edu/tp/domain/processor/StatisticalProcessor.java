@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Travel;
-import ar.edu.tp.exception.TravelNotFoundException;
+import ar.edu.tp.domain.Trip;
+import ar.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessor {
 
-	private List<Travel> travels;
+	private List<Trip> trips;
 
-	public StatisticalProcessor(List<Travel> travels) throws TravelNotFoundException {
-		this.travels = travels;
-		validateEmptyTravels();
+	public StatisticalProcessor(List<Trip> trips) throws TripNotFoundException {
+		this.trips = trips;
+		validateEmptyTrips();
 	}
 
 	public List<Bike> getBikesUsedMoreTimes() {
@@ -36,35 +36,35 @@ public class StatisticalProcessor {
 		return findBikesByFrecuency(useOfBike, lessTimes);
 	}
 
-	public List<Travel> getTravelMoreDone() {
+	public List<Trip> getTripsMoreDone() {
 
-		Map<Travel, Integer> travelCount = getTravelCountMap();
+		Map<Trip, Integer> tripCount = getTripCountMap();
 
-		Integer maxCountOfTravelDone = Collections.max(travelCount.values());
+		Integer maxCountOfTripDone = Collections.max(tripCount.values());
 
-		return travelMoreDone(travelCount, maxCountOfTravelDone);
+		return tripMoreDone(tripCount, maxCountOfTripDone);
 	}
 
-	private List<Travel> travelMoreDone(Map<Travel, Integer> travelCount, Integer max) {
+	private List<Trip> tripMoreDone(Map<Trip, Integer> tripCount, Integer max) {
 
-		List<Travel> travels = new LinkedList<Travel>();
+		List<Trip> trips = new LinkedList<Trip>();
 
-		for (Map.Entry<Travel, Integer> e : travelCount.entrySet()) {
-			Travel key = e.getKey();
+		for (Map.Entry<Trip, Integer> e : tripCount.entrySet()) {
+			Trip key = e.getKey();
 			Integer value = e.getValue();
 			if (value.equals(max)) {
-				travels.add(key);
+				trips.add(key);
 			}
 		}
 
-		return travels;
+		return trips;
 	}
 
 	public Double getAverageUseTime() {
 		Double timeTotal = new Double(0);
 		Integer quantity = 0;
-		for (Travel travel : travels) {
-			Double time = travel.getTime();
+		for (Trip trip : trips) {
+			Double time = trip.getTime();
 			timeTotal += time;
 			quantity++;
 		}
@@ -97,37 +97,37 @@ public class StatisticalProcessor {
 
 	private List<Bike> getAllBikes() {
 		List<Bike> bikes = new ArrayList<Bike>();
-		for (Travel travel : travels) {
-			bikes.add(travel.getBike());
+		for (Trip trip : trips) {
+			bikes.add(trip.getBike());
 		}
 		return bikes;
 	}
 
-	private Map<Travel, Integer> getTravelCountMap() {
-		Map<Travel, Integer> travelCountMap = new HashMap<Travel, Integer>();
+	private Map<Trip, Integer> getTripCountMap() {
+		Map<Trip, Integer> tripCountMap = new HashMap<Trip, Integer>();
 		int count = 0;
-		for (Travel travel : travels) {
-			if (!travelCountMap.containsKey(travel)) {
-				count = getTravelCount(travel);
-				travelCountMap.put(travel, new Integer(count));
+		for (Trip trip : trips) {
+			if (!tripCountMap.containsKey(trip)) {
+				count = getTripCount(trip);
+				tripCountMap.put(trip, new Integer(count));
 			}
 		}
-		return travelCountMap;
+		return tripCountMap;
 	}
 
-	private int getTravelCount(Travel travelToCount) {
+	private int getTripCount(Trip tripToCount) {
 		int count = 0;
-		for (Travel travel : travels) {
-			if (travel.equals(travelToCount)) {
+		for (Trip trip : trips) {
+			if (trip.equals(tripToCount)) {
 				count++;
 			}
 		}
 		return count;
 	}
 
-	private void validateEmptyTravels() throws TravelNotFoundException {
-		if (this.travels == null || this.travels.isEmpty()) {
-			throw new TravelNotFoundException("No hay recorridos para procesar");
+	private void validateEmptyTrips() throws TripNotFoundException {
+		if (this.trips == null || this.trips.isEmpty()) {
+			throw new TripNotFoundException("No hay recorridos para procesar");
 		}
 	}
 

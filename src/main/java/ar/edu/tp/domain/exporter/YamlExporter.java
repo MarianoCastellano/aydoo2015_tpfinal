@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.Trip;
 
 public class YamlExporter implements FileFormatExporter {
 
@@ -15,15 +15,15 @@ public class YamlExporter implements FileFormatExporter {
 	private List<Bike> bikesUsedMoreTimes;
 	private List<Bike> bikesUsedLessTimes;
 	private Double averageUseTime;
-	private List<Travel> travelsMoreDone;
+	private List<Trip> tipsMoreDone;
 
-	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Travel> travelsMoreDone,
+	public YamlExporter(String fileName, List<Bike> bikesUsedMoreTimes, List<Bike> bikesUsedLessTimes, List<Trip> tipsMoreDone,
 			Double averageUseTime) {
 		this.fileName = fileName;
 		this.bikesUsedMoreTimes = bikesUsedMoreTimes;
 		this.bikesUsedLessTimes = bikesUsedLessTimes;
 		this.averageUseTime = averageUseTime;
-		this.travelsMoreDone = travelsMoreDone;
+		this.tipsMoreDone = tipsMoreDone;
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class YamlExporter implements FileFormatExporter {
 		printWriter.write(System.lineSeparator());
 
 		printWriter.write(String.format("Recorrido mas realizado: "));
-		for (Travel travel : travelsMoreDone) {
-			printTravel(printWriter, travel);
+		for (Trip trip : tipsMoreDone) {
+			printTrip(printWriter, trip);
 		}
 
 		printWriter.write(System.lineSeparator());
@@ -60,11 +60,11 @@ public class YamlExporter implements FileFormatExporter {
 		System.out.println(String.format("Archivo de salida creado: %s", file.getAbsoluteFile()));
 	}
 
-	private void printTravel(PrintWriter printWriter, Travel travel) {
+	private void printTrip(PrintWriter printWriter, Trip trip) {
 		printWriter.write(System.lineSeparator());
-		printWriter.write(String.format("%5s id origen: %s", " ", travel.getOrigin().getOriginStationId()));
+		printWriter.write(String.format("%5s id origen: %s", " ", trip.getOrigin().getOriginStationId()));
 		printWriter.write(System.lineSeparator());
-		printWriter.write(String.format("%5s id destino: %s", " ", travel.getDestination().getOriginStationId()));
+		printWriter.write(String.format("%5s id destino: %s", " ", trip.getDestination().getOriginStationId()));
 	}
 
 	@Override

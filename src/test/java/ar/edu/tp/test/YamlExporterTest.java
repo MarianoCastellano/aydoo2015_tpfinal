@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import ar.edu.tp.domain.Bike;
 import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.Trip;
 import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
 
@@ -30,9 +30,9 @@ public class YamlExporterTest {
 		List<Bike> bikesUsedMoreTimes = generateBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = generateBikesUsedLessTimes();
 		Double averageUseTime = 0D;
-		List<Travel> travelsMoreDone = generateTravelsMoreDone();
+		List<Trip> tipsMoreDone = generateTripMoreDone();
 
-		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
+		FileFormatExporter yamlExporter = new YamlExporter(FILE_NAME, bikesUsedMoreTimes, bikesUsedLessTimes, tipsMoreDone, averageUseTime);
 		yamlExporter.export();
 
 		File file = new File("prueba".concat(EXTENSION_FILE));
@@ -51,11 +51,11 @@ public class YamlExporterTest {
 		return bikesUsedMoreTimes;
 	}
 	
-	private List<Travel> generateTravelsMoreDone() {
+	private List<Trip> generateTripMoreDone() {
 		Location origin = new Location("12", "PALERMO", null );
 		Location destiny = new Location("10", "RETIRO", null );
-		List<Travel> travelsMoreDone = new ArrayList<Travel>();
-		travelsMoreDone.add(new Travel(null, origin, destiny, "10"));
-		return travelsMoreDone;
+		List<Trip> tripMoreDone = new ArrayList<Trip>();
+		tripMoreDone.add(new Trip(null, origin, destiny, "10"));
+		return tripMoreDone;
 	}
 }

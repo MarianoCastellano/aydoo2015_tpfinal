@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.Trip;
 
 public class ParserZipOnDemand implements ParserZip {
 
@@ -14,15 +14,15 @@ public class ParserZipOnDemand implements ParserZip {
 		this.paths = paths;
 	}
 
-	public List<Travel> parse() throws IOException {
-		List<Travel> travels = new ArrayList<Travel>();
+	public List<Trip> parse() throws IOException {
+		List<Trip> trips = new ArrayList<Trip>();
 
 		for (String path : paths) {
 			ParserZipDeamon deamon = new ParserZipDeamon(path);
-			List<Travel> parse = deamon.parse();
-			travels.addAll(parse);
+			List<Trip> parse = deamon.parse();
+			trips.addAll(parse);
 		}
-		return travels;
+		return trips;
 	}
 
 }

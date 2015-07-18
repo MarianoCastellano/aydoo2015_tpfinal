@@ -10,11 +10,11 @@ import java.nio.file.WatchService;
 import java.util.List;
 
 import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Travel;
+import ar.edu.tp.domain.Trip;
 import ar.edu.tp.domain.exporter.FileFormatExporter;
 import ar.edu.tp.domain.exporter.YamlExporter;
 import ar.edu.tp.domain.parser.ParserZipDeamon;
-import ar.edu.tp.exception.TravelNotFoundException;
+import ar.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorStrategy {
 
@@ -35,7 +35,7 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 		}
 	}
 
-	private void listenEvents(FileManager fileManager, WatchKey watckKey) throws IOException, TravelNotFoundException {
+	private void listenEvents(FileManager fileManager, WatchKey watckKey) throws IOException, TripNotFoundException {
 		List<WatchEvent<?>> events = watckKey.pollEvents();
 		for (WatchEvent<?> event : events) {
 			if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE)) {
@@ -44,14 +44,14 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 		}
 	}
 
-	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TravelNotFoundException {
+	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TripNotFoundException {
 		List<String> paths = fileManager.findPaths();
 
 		for (String path : paths) {
 			String fileName = fileManager.extractNameFromZipFile(fileZip);
 			ParserZipDeamon parserZipDeamon = new ParserZipDeamon(path);
-			List<Travel> travels = parserZipDeamon.parse();
-			StatisticalProcessor processor = new StatisticalProcessor(travels);
+			List<Trip> trips = parserZipDeamon.parse();
+			StatisticalProcessor processor = new StatisticalProcessor(trips);
 			generateStatistics(processor, fileName);
 		}
 	}
@@ -59,10 +59,10 @@ public class StatisticalProcessorDeamonStrategy implements StatisticalProcessorS
 	private static void generateStatistics(StatisticalProcessor processor, String fileName) throws IOException {
 		List<Bike> bikesUsedMoreTimes = processor.getBikesUsedMoreTimes();
 		List<Bike> bikesUsedLessTimes = processor.getBikesUsedLessTimes();
-		List<Travel> travelsMoreDone = processor.getTravelMoreDone();
+		List<Trip> tripsMoreDone = processor.getTripsMoreDone();
 		Double averageUseTime = processor.getAverageUseTime();
 
-		FileFormatExporter yamlExporter = new YamlExporter(fileName, bikesUsedMoreTimes, bikesUsedLessTimes, travelsMoreDone, averageUseTime);
+		FileFormatExporter yamlExporter = new YamlExporter(fileName, bikesUsedMoreTimes, bikesUsedLessTimes, tripsMoreDone, averageUseTime);
 		yamlExporter.export();
 	}
 }
