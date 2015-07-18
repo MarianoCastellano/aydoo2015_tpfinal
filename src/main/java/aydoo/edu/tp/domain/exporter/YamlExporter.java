@@ -1,4 +1,4 @@
-package ar.edu.tp.domain.exporter;
+package aydoo.edu.tp.domain.exporter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Trip;
 
 public class YamlExporter implements FileFormatExporter {
 

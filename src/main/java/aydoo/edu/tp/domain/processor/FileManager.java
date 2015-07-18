@@ -1,10 +1,10 @@
-package ar.edu.tp.domain.processor;
+package aydoo.edu.tp.domain.processor;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.tp.exception.DirectoryNotFoundException;
+import aydoo.edu.tp.exception.DirectoryNotFoundException;
 
 public class FileManager {
 

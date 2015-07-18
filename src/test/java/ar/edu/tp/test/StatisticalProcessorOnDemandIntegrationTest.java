@@ -5,10 +5,10 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ar.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
-import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
-import ar.edu.tp.exception.DirectoryNotFoundException;
-import ar.edu.tp.exception.TripNotFoundException;
+import aydoo.edu.tp.domain.processor.StatisticalProcessorOnDemandStrategy;
+import aydoo.edu.tp.domain.processor.StatisticalProcessorStrategy;
+import aydoo.edu.tp.exception.DirectoryNotFoundException;
+import aydoo.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessorOnDemandIntegrationTest {
 

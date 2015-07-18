@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.Trip;
-import ar.edu.tp.domain.User;
-import ar.edu.tp.domain.processor.StatisticalProcessor;
-import ar.edu.tp.exception.TripNotFoundException;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Location;
+import aydoo.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.User;
+import aydoo.edu.tp.domain.processor.StatisticalProcessor;
+import aydoo.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessorTest {
 

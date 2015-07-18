@@ -1,13 +1,13 @@
-package ar.edu.tp.domain.processor;
+package aydoo.edu.tp.domain.processor;
 
 import java.io.IOException;
 import java.util.List;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Trip;
-import ar.edu.tp.domain.exporter.FileFormatExporter;
-import ar.edu.tp.domain.exporter.YamlExporter;
-import ar.edu.tp.domain.parser.ParserZipOnDemand;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.exporter.FileFormatExporter;
+import aydoo.edu.tp.domain.exporter.YamlExporter;
+import aydoo.edu.tp.domain.parser.ParserZipOnDemand;
 
 public class StatisticalProcessorOnDemandStrategy implements StatisticalProcessorStrategy {
 

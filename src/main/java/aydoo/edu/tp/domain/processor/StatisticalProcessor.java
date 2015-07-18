@@ -1,4 +1,4 @@
-package ar.edu.tp.domain.processor;
+package aydoo.edu.tp.domain.processor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Trip;
-import ar.edu.tp.exception.TripNotFoundException;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Trip;
+import aydoo.edu.tp.exception.TripNotFoundException;
 
 public class StatisticalProcessor {
 

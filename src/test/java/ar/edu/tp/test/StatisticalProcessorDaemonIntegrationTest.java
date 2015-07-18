@@ -2,9 +2,9 @@ package ar.edu.tp.test;
 
 import org.junit.Test;
 
-import ar.edu.tp.domain.processor.StatisticalProcessorDaemonStrategy;
-import ar.edu.tp.domain.processor.StatisticalProcessorStrategy;
-import ar.edu.tp.exception.DirectoryNotFoundException;
+import aydoo.edu.tp.domain.processor.StatisticalProcessorDaemonStrategy;
+import aydoo.edu.tp.domain.processor.StatisticalProcessorStrategy;
+import aydoo.edu.tp.exception.DirectoryNotFoundException;
 
 public class StatisticalProcessorDaemonIntegrationTest {
 

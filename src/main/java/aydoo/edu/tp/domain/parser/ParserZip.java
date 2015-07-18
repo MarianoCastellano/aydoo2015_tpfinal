@@ -1,8 +1,8 @@
-package ar.edu.tp.domain.parser;
+package aydoo.edu.tp.domain.parser;
 
 import java.util.List;
 
-import ar.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.Trip;
 
 public interface ParserZip {
 

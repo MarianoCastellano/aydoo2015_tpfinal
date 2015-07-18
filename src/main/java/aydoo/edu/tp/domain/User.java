@@ -1,4 +1,4 @@
-package ar.edu.tp.domain;
+package aydoo.edu.tp.domain;
 
 public class User {
 

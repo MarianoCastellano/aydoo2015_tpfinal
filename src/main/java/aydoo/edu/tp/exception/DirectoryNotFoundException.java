@@ -1,4 +1,4 @@
-package ar.edu.tp.exception;
+package aydoo.edu.tp.exception;
 
 public class DirectoryNotFoundException extends Exception {
 

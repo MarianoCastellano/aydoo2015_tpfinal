@@ -1,4 +1,4 @@
-package ar.edu.tp.domain.processor;
+package aydoo.edu.tp.domain.processor;
 
 public interface StatisticalProcessorStrategy {
 

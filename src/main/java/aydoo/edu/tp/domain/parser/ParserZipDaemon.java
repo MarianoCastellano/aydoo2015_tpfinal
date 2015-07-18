@@ -1,4 +1,4 @@
-package ar.edu.tp.domain.parser;
+package aydoo.edu.tp.domain.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.Trip;
-import ar.edu.tp.domain.User;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Location;
+import aydoo.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.User;
 
 public class ParserZipDaemon implements ParserZip {
 

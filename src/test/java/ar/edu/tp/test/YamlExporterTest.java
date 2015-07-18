@@ -8,11 +8,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ar.edu.tp.domain.Bike;
-import ar.edu.tp.domain.Location;
-import ar.edu.tp.domain.Trip;
-import ar.edu.tp.domain.exporter.FileFormatExporter;
-import ar.edu.tp.domain.exporter.YamlExporter;
+import aydoo.edu.tp.domain.Bike;
+import aydoo.edu.tp.domain.Location;
+import aydoo.edu.tp.domain.Trip;
+import aydoo.edu.tp.domain.exporter.FileFormatExporter;
+import aydoo.edu.tp.domain.exporter.YamlExporter;
 
 public class YamlExporterTest {
 
