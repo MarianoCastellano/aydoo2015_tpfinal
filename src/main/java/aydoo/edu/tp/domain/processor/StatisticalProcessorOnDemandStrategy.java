@@ -1,6 +1,7 @@
 package aydoo.edu.tp.domain.processor;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import aydoo.edu.tp.domain.Bike;
@@ -18,9 +19,13 @@ public class StatisticalProcessorOnDemandStrategy implements StatisticalProcesso
 
 		List<String> paths = fileManager.findPaths();
 
-		ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand(paths);
-		List<Trip> trips = parserZipOnDemand.parse();
-		StatisticalProcessor processor = new StatisticalProcessor(trips);
+		ParserZipOnDemand parserZipOnDemand = new ParserZipOnDemand();
+		StatisticalProcessor processor = new StatisticalProcessor();
+		for (String path : paths) {
+			List<Trip> trips = new LinkedList<Trip>();
+			trips = parserZipOnDemand.parse(path);
+			processor.addTripsAndProcess(trips);
+		}
 		String fileName = fileManager.extractNameFromFolder(folder);
 		generateStatistics(processor, fileName);
 	}

@@ -2,27 +2,27 @@ package aydoo.edu.tp.domain;
 
 public class Trip {
 
-	private Bike bike;
-	private Location origin;
-	private Location destination;
+	private int bike;
+	private Integer origin;
+	private Integer destination;
 	private double time;
 
-	public Trip(Bike bike, Location origin, Location destination, double time) {
+	public Trip(int bike, Integer origin, Integer destination, double time) {
 		this.bike = bike;
 		this.origin = origin;
 		this.destination = destination;
 		this.time = time;
 	}
 
-	public Bike getBike() {
+	public int getBike() {
 		return bike;
 	}
 
-	public Location getDestination() {
+	public int getDestination() {
 		return destination;
 	}
 
-	public Location getOrigin() {
+	public int getOrigin() {
 		return origin;
 	}
 
@@ -38,6 +38,6 @@ public class Trip {
 	@Override
 	public boolean equals(Object obj) {
 		Trip other = (Trip) obj;
-		return ((this.origin.equals(other.origin)) && (this.destination.equals(other.destination)));
+		return ((this.origin.equals((other.origin))) && (this.destination.equals((other.destination))));
 	}
 }

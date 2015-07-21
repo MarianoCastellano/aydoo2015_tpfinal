@@ -10,27 +10,18 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import aydoo.edu.tp.domain.Bike;
-import aydoo.edu.tp.domain.Location;
 import aydoo.edu.tp.domain.Trip;
-import aydoo.edu.tp.domain.User;
 
 public class ParserZipDaemon implements ParserZip {
 
-	private String path;
-
-	public ParserZipDaemon(String path) {
-		this.path = path;
-	}
+	private static final String CVS_SPLIT_BY = ";";
 
 	@SuppressWarnings({ "resource", "unchecked" })
-	public List<Trip> parse() throws IOException {
+	public List<Trip> parse(String path) throws IOException {
 		List<Trip> trips = new ArrayList<Trip>();
 
 		ZipFile zipFile = new ZipFile(path);
-
 		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
-
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 			InputStream stream = zipFile.getInputStream(entry);
@@ -40,33 +31,24 @@ public class ParserZipDaemon implements ParserZip {
 	}
 
 	private void proccesTrip(List<Trip> trips, InputStream stream) throws IOException {
-		String cvsSplitBy = ";";
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		String line = "";
 		Boolean isHeader = false;
-
 		while ((line = br.readLine()) != null) {
 			if (!isHeader) {
 				isHeader = true;
 			} else {
-				String[] row = line.split(cvsSplitBy);
+				String[] row = line.split(CVS_SPLIT_BY);
 				try {
-					String userId = row[0];
 					String bikeId = row[1];
-					String originDate = row[2];
 					String originStationId = row[3];
-					String originName = row[4];
-					String destinationDate = row[5];
 					String destinationStationId = row[6];
-					String destinationName = row[7];
 					String time = row[8];
 
-					User user = new User(userId);
-					Bike bike = new Bike(bikeId);
-					bike.use(user);
-					Location origin = new Location(originStationId, originName, originDate);
-					Location destination = new Location(destinationStationId, destinationName, destinationDate);
-					Trip trip = new Trip(bike, origin, destination, Double.valueOf(time));
+					int bike = Integer.parseInt(bikeId);
+					int originStation = Integer.parseInt(originStationId);
+					int destinationStation = Integer.parseInt(destinationStationId);
+					Trip trip = new Trip(bike, originStation, destinationStation, Double.valueOf(time));
 					trips.add(trip);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.out.println("Error al procesar el registro");

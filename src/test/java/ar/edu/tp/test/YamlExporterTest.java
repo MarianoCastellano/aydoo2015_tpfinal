@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import aydoo.edu.tp.domain.Bike;
-import aydoo.edu.tp.domain.Location;
 import aydoo.edu.tp.domain.Trip;
 import aydoo.edu.tp.domain.exporter.FileFormatExporter;
 import aydoo.edu.tp.domain.exporter.YamlExporter;
@@ -41,21 +40,21 @@ public class YamlExporterTest {
 
 	private List<Bike> generateBikesUsedLessTimes() {
 		List<Bike> bikesUsedLessTimes = new ArrayList<Bike>();
-		bikesUsedLessTimes.add(new Bike("2"));
+		bikesUsedLessTimes.add(new Bike(2));
 		return bikesUsedLessTimes;
 	}
 
 	private List<Bike> generateBikesUsedMoreTimes() {
 		List<Bike> bikesUsedMoreTimes = new ArrayList<Bike>();
-		bikesUsedMoreTimes.add(new Bike("1"));
+		bikesUsedMoreTimes.add(new Bike(1));
 		return bikesUsedMoreTimes;
 	}
 
 	private List<Trip> generateTripMoreDone() {
-		Location origin = new Location("12", "PALERMO", null);
-		Location destiny = new Location("10", "RETIRO", null);
 		List<Trip> tripMoreDone = new ArrayList<Trip>();
-		tripMoreDone.add(new Trip(null, origin, destiny, 10));
+		Integer originId = new Integer(12);
+		Integer destinyId = new Integer(10);
+		tripMoreDone.add(new Trip(1, originId, destinyId, 10));
 		return tripMoreDone;
 	}
 }

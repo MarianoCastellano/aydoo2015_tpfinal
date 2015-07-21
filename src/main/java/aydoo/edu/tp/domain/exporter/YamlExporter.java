@@ -62,9 +62,9 @@ public class YamlExporter implements FileFormatExporter {
 
 	private void printTrip(PrintWriter printWriter, Trip trip) {
 		printWriter.write(System.lineSeparator());
-		printWriter.write(String.format("%5s id origen: %s", " ", trip.getOrigin().getOriginStationId()));
+		printWriter.write(String.format("%5s id origen: %s", " ", trip.getOrigin()));
 		printWriter.write(System.lineSeparator());
-		printWriter.write(String.format("%5s id destino: %s", " ", trip.getDestination().getOriginStationId()));
+		printWriter.write(String.format("%5s id destino: %s", " ", trip.getDestination()));
 	}
 
 	@Override

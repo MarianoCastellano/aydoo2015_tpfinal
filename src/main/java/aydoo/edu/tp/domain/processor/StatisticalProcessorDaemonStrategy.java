@@ -46,12 +46,12 @@ public class StatisticalProcessorDaemonStrategy implements StatisticalProcessorS
 
 	private void proccessStatisticsByPaths(FileManager fileManager, String fileZip) throws IOException, TripNotFoundException {
 		List<String> paths = fileManager.findPaths();
-
+		StatisticalProcessor processor = new StatisticalProcessor();
 		for (String path : paths) {
 			String fileName = fileManager.extractNameFromZipFile(fileZip);
-			ParserZipDaemon parserZipDaemon = new ParserZipDaemon(path);
-			List<Trip> trips = parserZipDaemon.parse();
-			StatisticalProcessor processor = new StatisticalProcessor(trips);
+			ParserZipDaemon parserZipDaemon = new ParserZipDaemon();
+			List<Trip> trips = parserZipDaemon.parse(path);
+			processor.addTripsAndProcess(trips);
 			generateStatistics(processor, fileName);
 		}
 	}
